@@ -1,6 +1,6 @@
 # ------------FUNCTIONS---------------
 
-define check_program
+define	check_program
 	@ if [ -f $1 ]; \
 	 then \
 		echo "\r\n\e[1;32m  Build success!\e[0m"; \
@@ -30,11 +30,13 @@ NAME = minishell
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 INCLUDE_DIR = -I srcs/get_next_line/ -I headers/
 
-LIBRARY = $(addprefix get_next_line/, get_next_line.c get_next_line_utils.c)
+LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
+			$(addprefix token_utils/, init_struct.c lexer.c) \
+			$(addprefix string_library/, my_strlen.c my_strncmp.c my_substr.c my_isspace.c)
 
 MAIN = parser.c
 
