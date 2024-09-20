@@ -9,15 +9,28 @@ int	token_size(t_token *token)
 	return (1);
 }
 
-void	add_front(t_token **token, t_token *new_token)
+t_token	*last_token(t_token **token)
 {
-	if (new_token != NULL)
+	if (*token == NULL)
+		return (NULL);
+	if ((*token)->next != NULL)
+		return (last_token (&(*token)->next));
+	return (*token);
+}
+
+void	add_back(t_token **token, t_token *new_token)
+{
+	t_token	*last;
+
+	if (*token != NULL)
 	{
-		new_token->next = (*token);
-		(*token) = new_token;
+		last = last_token (token);
+		last->next = new_token;
+		if (new_token != NULL)
+			new_token->prev = last;
 	}
 	else
-		(*token) = new_token;
+		*token = new_token;
 }
 
 void	delete_token(t_token **token)

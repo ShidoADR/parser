@@ -2,15 +2,21 @@
 
 t_token_type	get_token_type(char *content)
 {
-	if (my_strncmp (content, "|\0", 2) == 0)
+	if (content[0] == '|')
 		return (PIPE);
-	if (my_strncmp (content, ">>\0", 3) == 0)
-		return (APPEND);
-	if (my_strncmp (content, "<<\0", 3) == 0)
-		return (HEREDOC);
-	if (my_strncmp (content, ">\0", 2) == 0)
+	if (content[0] && content[1])
+	{
+		if (content[0] == '>' && content[1] == '>')
+			return (APPEND);
+	}
+	if (content[0] && content[1])
+	{
+		if (content[0] == '<' && content[1] == '<')
+			return (HEREDOC);
+	}
+	if (content[0] == '>')
 		return (REDIR_OUT);
-	if (my_strncmp (content, "<\0", 2) == 0)
+	if (content[0] == '<')
 		return (REDIR_IN);
 	else
 		return (WORD);
@@ -24,21 +30,6 @@ t_bool	isquote(char c)
 		return (FALSE);
 }
 
-char	*get_token(char *prompt, int *i)
-{
-	int	j;
-
-	j = 0;
-	while (prompt[j] != '\0' && my_isspace (prompt[j]) == FALSE)
-	{
-		if (isquote (prompt[j]) == TRUE)
-			break;
-		j++;
-	}
-	*i += j;
-	return (my_substr(prompt, 0, j));
-}
-
 int	find_next_quote(char *prompt, char quote)
 {
 	int	len;
@@ -48,7 +39,38 @@ int	find_next_quote(char *prompt, char quote)
 	len = 0;
 	while (prompt[len] != '\0' && prompt[len] != quote)
 		len++;
-	return (len);
+	if (prompt[len] == '\0')
+		return (len - 1);
+	return (len + 1);
+}
+
+char	*get_token(char *prompt, int *i)
+{
+	int	j;
+
+	if (my_strchr ("<>|", prompt[j]))
+	{
+		if (get_token_type (prompt) == APPEND || get_token_type (prompt) == HEREDOC)
+		{
+			*i += 1;
+			return (my_substr (prompt, 0, 2));
+		}
+		return (my_substr (prompt, 0, 1));
+	}
+	j = 0;
+	while (prompt[j] != '\0' && my_isspace (prompt[j]) == FALSE)
+	{
+		if (isquote (prompt[j]) == TRUE)
+			j += find_next_quote (&prompt[j] + 1, prompt[j]);
+		if (my_strchr("<>|", prompt[j]) != NULL)
+		{
+			*i += j - 1;
+			return (my_substr (prompt, 0, j));
+		}
+		j++;
+	}
+	*i += j;
+	return (my_substr (prompt, 0, j));
 }
 
 t_token	*lexer(char *prompt)
@@ -63,8 +85,8 @@ t_token	*lexer(char *prompt)
 	i = 0;
 	while (prompt[i] != '\0')
 	{
-		tmp = get_token(prompt + i, &i);
-		add_front(&token, new_token (get_token_type (tmp), tmp));
+		tmp = get_token (prompt + i, &i);
+		add_back (&token, new_token (get_token_type (tmp), tmp));
 		i++;
 	}
 	return (token);

@@ -36,7 +36,7 @@ INCLUDE_DIR = -I srcs/get_next_line/ -I headers/
 
 LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
 			$(addprefix token_utils/, init_struct.c lexer.c) \
-			$(addprefix string_library/, my_strlen.c my_strncmp.c my_substr.c my_isspace.c)
+			$(addprefix string_library/, my_strlen.c my_strncmp.c my_substr.c my_isspace.c my_strchr.c)
 
 MAIN = parser.c
 
@@ -57,12 +57,12 @@ $(OBJ_DIR)/%.o : %.c
 	@ $(CC) $(FLAGS) -c $< -o $@ $(INCLUDE_DIR)
 
 $(NAME) : $(OBJS)
-	$(call loading, "Compiling", 0.3, \e[1;35m)
+	$(call loading, "Compiling", 0, \e[1;35m)
 	@ $(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE_DIR)
 	$(call check_program, $(NAME))
 
 clean :
-	$(call loading, "cleaning", 0.3, \e[1;36m)
+	$(call loading, "cleaning", 0, \e[1;36m)
 	@ rm -rf $(OBJ_DIR)
 
 fclean : clean

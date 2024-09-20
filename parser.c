@@ -6,7 +6,7 @@ void	print_token(t_token *token)
 	{
 		while (token != NULL)
 		{
-			printf ("type = %d\nvalue = %s\n", token->type, token->content);
+			printf ("{type = %d, value = %s}\n", token->type, token->content);
 			token = token->next;
 		}
 	}
