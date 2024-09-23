@@ -11,10 +11,19 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-typedef struct s_data
+typedef struct s_command
 {
-	char			*prompt;
-	struct s_token	*token;
-}	t_data;
+	char				*command;
+	char				*arguments;
+	struct s_command	*next;
+	struct s_command	*prev;
+}	t_command;
+
+typedef struct s_command_table
+{
+	struct s_command	*command;
+	char				*input;
+	char				*output;
+}	t_command_table;
 
 #endif

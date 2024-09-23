@@ -22,14 +22,6 @@ t_token_type	get_token_type(char *content)
 		return (WORD);
 }
 
-t_bool	isquote(char c)
-{
-	if (c == '\'' || c == '\"')
-		return (TRUE);
-	else
-		return (FALSE);
-}
-
 int	find_next_quote(char *prompt, char quote)
 {
 	int	len;
@@ -48,9 +40,9 @@ char	*get_token(char *prompt, int *i)
 {
 	int	j;
 
-	if (my_strchr ("<>|", prompt[j]))
+	if (my_strchr ("<>|", prompt[0]))
 	{
-		if (get_token_type (prompt) == APPEND || get_token_type (prompt) == HEREDOC)
+		if (is_special_token (prompt) == TRUE)
 		{
 			*i += 1;
 			return (my_substr (prompt, 0, 2));
@@ -83,7 +75,7 @@ t_token	*lexer(char *prompt)
 		return (NULL);
 	token = NULL;
 	i = 0;
-	while (prompt[i] != '\0')
+	while (prompt[i] != '\0' && prompt[i] != '\n')
 	{
 		tmp = get_token (prompt + i, &i);
 		add_back (&token, new_token (get_token_type (tmp), tmp));

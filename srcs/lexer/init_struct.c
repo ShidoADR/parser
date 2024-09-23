@@ -9,15 +9,6 @@ int	token_size(t_token *token)
 	return (1);
 }
 
-t_token	*last_token(t_token **token)
-{
-	if (*token == NULL)
-		return (NULL);
-	if ((*token)->next != NULL)
-		return (last_token (&(*token)->next));
-	return (*token);
-}
-
 void	add_back(t_token **token, t_token *new_token)
 {
 	t_token	*last;
