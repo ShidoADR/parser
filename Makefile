@@ -35,6 +35,7 @@ FLAGS = -Wall -Wextra -Werror -g
 INCLUDE_DIR = -I srcs/get_next_line/ -I headers/
 
 LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
+			$(addprefix expander/, expander.c) \
 			$(addprefix lexer/, init_struct.c lexer.c lexer_utils.c) \
 			$(addprefix string_library/, my_strlen.c my_strncmp.c my_substr.c my_isspace.c my_strchr.c \
 			my_strjoin.c)

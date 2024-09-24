@@ -1,3 +1,4 @@
+#include "headers/color.h"
 #include "headers/minishell.h"
 
 void	print_token(t_token *token)
@@ -19,7 +20,8 @@ int	main(void)
 
 	while (1)
 	{
-		write (1, ">>", 2);
+		printf("%s->%s\n", RED, RESET);
+		write (0, "  \033[A", 5);
 		str = get_next_line (0);
 		if (my_strncmp (str, "exit\n\0", 6) == 0)
 		{
@@ -27,6 +29,7 @@ int	main(void)
 			exit (EXIT_SUCCESS);
 		}
 		token = lexer (str);
+		expander (&token);
 		print_token (token);
 		clear_token(&token);
 		free (str);

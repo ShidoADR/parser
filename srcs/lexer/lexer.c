@@ -77,6 +77,8 @@ t_token	*lexer(char *prompt)
 	i = 0;
 	while (prompt[i] != '\0' && prompt[i] != '\n')
 	{
+		while (my_isspace (prompt[i]) == TRUE)
+			i++;
 		tmp = get_token (prompt + i, &i);
 		add_back (&token, new_token (get_token_type (tmp), tmp));
 		i++;

@@ -15,8 +15,9 @@ typedef struct s_command
 {
 	char				*command;
 	char				*arguments;
-	struct s_command	*next;
-	struct s_command	*prev;
+	struct s_command	*left;
+	struct s_command	*right;
+	struct s_command	*parent;
 }	t_command;
 
 typedef struct s_command_table

@@ -7,17 +7,12 @@
 # include "struct.h"
 
 /*
-***-------srcs/string_library--------
+***---------srcs/expander-----------
 */
-int				my_strlen(const char *s);
-int				my_strncmp(const char *s1, const char *s2, size_t n);
-char			*my_strchr(const char *s, int c);
-char			*my_strjoin(const char *s1, const char *s2);
-char			*my_substr(const char *s, int start, int len);
-t_bool			my_isspace(char c);
+void	expander(t_token **token);
 
 /*
-***--------srcs/lexer----------
+***----------srcs/lexer-------------
 */
 
 /*
@@ -43,5 +38,15 @@ int				find_next_quote(char *prompt, char quote);
 char			*get_token(char *prompt, int *i);
 t_token			*lexer(char *prompt);
 t_token_type	get_token_type(char *content);
+
+/*
+***-------srcs/string_library--------
+*/
+int				my_strlen(const char *s);
+int				my_strncmp(const char *s1, const char *s2, size_t n);
+char			*my_strchr(const char *s, int c);
+char			*my_strjoin(const char *s1, const char *s2);
+char			*my_substr(const char *s, int start, int len);
+t_bool			my_isspace(char c);
 
 #endif
