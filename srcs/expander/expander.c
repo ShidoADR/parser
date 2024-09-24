@@ -39,7 +39,7 @@ char	*handle_single_quote(char *content, int *index)
 	len = 1;
 	while (content[len] != '\0' && content[len] != '\'')
 		len++;
-	*index += len;
+	*index += len + 1;
 	content_handled = remove_quote (content, '\'');
 	return (content_handled);
 }
