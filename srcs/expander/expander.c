@@ -1,25 +1,5 @@
 #include "../../headers/minishell.h"
 
-char	*remove_quote(char *content, char quote)
-{
-	int		len;
-	char	*result;
-
-	result = NULL;
-	if (content != NULL)
-	{
-		len = 0;
-		while (content[len + 1] != '\0')
-		{
-			if (content[len + 1] == quote)
-				break ;
-			len++;
-		}
-		result = my_substr (content, 1, len);
-	}
-	return (result);
-}
-
 char	*join_string(char **s1, char **s2)
 {
 	char	*result;
@@ -27,21 +7,10 @@ char	*join_string(char **s1, char **s2)
 	result = my_strjoin (*s1, *s2);
 	if ((*s1) != NULL)
 		free (*s1);
+	if ((*s2) != NULL)
+		free (*s2);
 	*s1 = NULL;
 	return (result);
-}
-
-char	*handle_single_quote(char *content, int *index)
-{
-	char	*content_handled;
-	int		len;
-
-	len = 1;
-	while (content[len] != '\0' && content[len] != '\'')
-		len++;
-	*index += len + 1;
-	content_handled = remove_quote (content, '\'');
-	return (content_handled);
 }
 
 char	*handle_dollar_sign(char *content, int *index)
@@ -67,7 +36,7 @@ char	*handle_dollar_sign(char *content, int *index)
 	result = getenv (tmp + 1);
 	free (tmp);
 	*index += i;
-	return (result);
+	return (my_substr (result, 0, my_strlen (result)));
 }
 
 char	*handle_text(char *content, int *index)
@@ -91,67 +60,6 @@ char	*handle_text(char *content, int *index)
 	return (NULL);
 }
 
-char	*handle_quoted_text(char *content, int *index)
-{
-	int	i;
-
-	if (content != NULL)
-	{
-		i = 0;
-		while (content[i] != '\0')
-		{
-			if (content[i] == '$')
-				break ;
-			i++;
-		}
-		*index += i;
-		return (my_substr (content, 0, i));
-	}
-	return (NULL);
-}
-
-char	*handle_double_quote(char *content, int *index)
-{
-	int		i;
-	char	*tmp;
-	char	*content_handled;
-	char	*removed_quote;
-
-	removed_quote = remove_quote (content, '\"');
-	content_handled = NULL;
-	tmp = NULL;
-	i = 0;
-	while (removed_quote[i] != '\0')
-	{
-		if (removed_quote[i] == '$')
-			tmp = handle_dollar_sign (removed_quote + i, &i);
-		else
-			tmp = handle_quoted_text (removed_quote + i, &i);
-		content_handled = join_string (&content_handled, &tmp);
-	}
-	*index += my_strlen (content);
-	free (removed_quote);
-	return (content_handled);
-}
-
-char	*handle_quote(char *content, int *index)
-{
-	int		i;
-	char	*result;
-
-	result = NULL;
-	if (content != NULL)
-	{
-		i = 0;
-		if (content[i] == '\'')
-			result = handle_single_quote (content, &i);
-		else
-			result = handle_double_quote (content, &i);
-		*index += i;
-	}
-	return (result);
-}
-
 char	*expand_token(char *content)
 {
 	int		i;
@@ -172,8 +80,6 @@ char	*expand_token(char *content)
 			else
 				tmp = handle_text (content + i, &i);
 			result = join_string (&result, &tmp);
-			printf ("eto %s\n", result);
-			printf ("aty %s\n", content + i);
 		}
 	}
 	return (result);

@@ -13,15 +13,24 @@ void	print_token(t_token *token)
 	}
 }
 
+void	print_prompt(void)
+{
+	printf (VIBRANT_BLUE BOLD_UNDERLINED "MiniShell" RESET " :");
+	printf (DARK_GREEN BOLD " %s " RESET "in ", getenv ("LOGNAME"));
+	printf (LIGHT_BLUE ITALIC "%s\n", getenv ("PWD"));
+	printf(RED"->" RESET "\n");
+	write (0, "  \033[A", 5);
+}
+
 int	main(void)
 {
 	char	*str;
 	t_token	*token;
 
+	printf (CLEAR);
 	while (1)
 	{
-		printf("%s->%s\n", RED, RESET);
-		write (0, "  \033[A", 5);
+		print_prompt ();
 		str = get_next_line (0);
 		if (my_strncmp (str, "exit\n\0", 6) == 0)
 		{
