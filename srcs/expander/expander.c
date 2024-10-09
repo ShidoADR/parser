@@ -9,6 +9,7 @@ char	*join_string(char **s1, char **s2)
 		free (*s1);
 	if ((*s2) != NULL)
 		free (*s2);
+	*s2 = NULL;
 	*s1 = NULL;
 	return (result);
 }
@@ -22,16 +23,7 @@ char	*handle_dollar_sign(char *content, int *index)
 	if (content == NULL)
 		return (NULL);
 	i = 1;
-	while (content[i] != '\0' && content[i] != '$')
-	{
-		if (my_isspace (content[i]) == TRUE || isquote (content[i]) == TRUE)
-			break ;
-		if (my_strchr ("<>|", content[i]) != NULL)
-			break ;
-		i++;
-		if (content[i - 1] >= '0' && content[i - 1] <= '9')
-			break ;
-	}
+	get_variable(content, &i);
 	tmp = my_substr (content, 0, i);
 	result = getenv (tmp + 1);
 	free (tmp);
@@ -76,7 +68,7 @@ char	*expand_token(char *content, t_token **token)
 			if (isquote (content[i]) == TRUE)
 				tmp = handle_quote (content + i, &i);
 			else if (content[i] == '$')
-				tmp = expand_variable (content + i, token, &i);
+				tmp = expand_variable (&result, content + i, token, &i);
 			else
 				tmp = handle_text (content + i, &i);
 			result = join_string (&result, &tmp);
@@ -108,8 +100,7 @@ void	expander(t_token **token)
 				*token = (*token)->next;
 		}
 	}
-	if (first_token->prev == NULL)
-		*token = first_token;
-	else
-		*token = first_token->prev;
+	while (first_token->prev != NULL)
+		first_token = first_token->prev;
+	*token = first_token;
 }

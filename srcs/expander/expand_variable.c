@@ -20,14 +20,7 @@ t_bool	check_space(char *content)
 	while (content[i] != '\0')
 	{
 		if (my_isspace (content[i]) == TRUE)
-		{
-			while (my_isspace(content[i]) == TRUE)
-				i++;
-			if (content[i] != '\0')
-				return (TRUE);
-			else
-				return (FALSE);
-		}
+			return (TRUE);
 		i++;
 	}
 	return (FALSE);
@@ -47,6 +40,16 @@ int	first_value_index(char *content)
 	return (i);
 }
 
+int	trim_space(char *content)
+{
+	int	i;
+
+	i = 0;
+	while (content[i] == ' ')
+		i++;
+	return (i);
+}
+
 void	add_new_token(t_token **token, t_token *new_token)
 {
 	t_token	*tmp;
@@ -59,21 +62,40 @@ void	add_new_token(t_token **token, t_token *new_token)
 		tmp->next = new_token;
 }
 
-char	*expand_variable(char *content, t_token **token, int *index)
+char	*expand_variable(char **s, char *content, t_token **token, int *i)
 {
-	int		i;
+	int		j;
+	int		trim;
 	char	*result;
 	char	*tmp;
 
-	result = handle_dollar_sign (content, index);
+	result = handle_dollar_sign (content, i);
 	if (check_space (result) == TRUE)
 	{
-		i = first_value_index (result);
-		tmp = my_substr (result, 0, i);
-		add_new_token(token, new_token (get_token_type (tmp), tmp));
-		while (my_isspace(result[i]) == TRUE)
-			i++;
-		tmp = my_substr (result, i, my_strlen (result + i));
+		trim = 0;
+		if (my_isspace (result[0]) == TRUE)
+		{
+			tmp = my_substr (*s, 0, my_strlen (*s));
+			add_new_token (token, new_token (get_token_type (tmp), tmp));
+			free (*s);
+			*s = NULL;
+			trim = trim_space (result);
+		}
+		j = first_value_index (result + trim);
+		tmp = my_substr (result, trim, j);
+		if (*s != NULL)
+			tmp = join_string (s, &tmp);
+		*s = NULL;
+		if (my_isspace (result[j + trim]) == TRUE)
+		{
+			add_new_token(token, new_token (get_token_type (tmp), tmp));
+			while (result[j + trim] != '\0' && my_isspace(result[j + trim]) == TRUE)
+				j++;
+			if (result[j + trim] == '\0')
+				tmp = NULL;
+			else
+				tmp = my_substr (result, j + trim, my_strlen (result + j + trim));
+		}
 		free (result);
 		result = tmp;
 	}

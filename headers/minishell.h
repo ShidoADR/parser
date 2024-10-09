@@ -25,7 +25,8 @@ t_bool			check_space(char *content);
 int				first_value_index(char *content);
 int				quoted_text_length(char *content, char quote);
 void			add_new_token(t_token **token, t_token *new_token);
-char			*expand_variable(char *content, t_token **token, int *index);
+char			*expand_variable(char **s, char *content, t_token **token,
+					int *i);
 
 	/*
 	***--------expander.c-----------
@@ -35,6 +36,12 @@ char			*join_string(char **s1, char **s2);
 char			*handle_text(char *content, int *index);
 char			*expand_token(char *content, t_token **token);
 char			*handle_dollar_sign(char *content, int *index);
+
+	/*
+	***--------is_variable.c----------
+	*/
+t_bool			my_isalpha(char c);
+void			get_variable(char *content, int *i);
 
 	/*
 	***-------quote_utils.c----------
