@@ -7,15 +7,33 @@
 # include "struct.h"
 
 /*
+***-----------srcs/error-------------
+*/
+	/*
+	***--------error_handler.c-----------
+	*/
+void			print_error(char *s, int status);
+void			print_custom_error(char *s, int status);
+
+/*
 ***---------srcs/expander-----------
 */
+	/*
+	***------expand_variable.c-------
+	*/
+t_bool			check_space(char *content);
+int				first_value_index(char *content);
+int				quoted_text_length(char *content, char quote);
+void			add_new_token(t_token **token, t_token *new_token);
+char			*expand_variable(char *content, t_token **token, int *index);
+
 	/*
 	***--------expander.c-----------
 	*/
 void			expander(t_token **token);
-char			*expand_token(char *content);
 char			*join_string(char **s1, char **s2);
 char			*handle_text(char *content, int *index);
+char			*expand_token(char *content, t_token **token);
 char			*handle_dollar_sign(char *content, int *index);
 
 	/*

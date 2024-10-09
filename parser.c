@@ -1,4 +1,3 @@
-#include "headers/color.h"
 #include "headers/minishell.h"
 
 void	print_token(t_token *token)
@@ -16,7 +15,7 @@ void	print_token(t_token *token)
 void	print_prompt(void)
 {
 	printf (VIBRANT_BLUE BOLD_UNDERLINED "MiniShell" RESET " :");
-	printf (DARK_GREEN BOLD " %s " RESET "in ", getenv ("LOGNAME"));
+	printf (DARK_GREEN BOLD " %s " RESET "in ", getenv ("USER"));
 	printf (LIGHT_BLUE ITALIC "%s\n", getenv ("PWD"));
 	printf(RED"->" RESET "\n");
 	write (0, "  \033[A", 5);

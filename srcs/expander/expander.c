@@ -24,13 +24,13 @@ char	*handle_dollar_sign(char *content, int *index)
 	i = 1;
 	while (content[i] != '\0' && content[i] != '$')
 	{
-		if (my_isspace (content[i]) == TRUE)
+		if (my_isspace (content[i]) == TRUE || isquote (content[i]) == TRUE)
 			break ;
 		if (my_strchr ("<>|", content[i]) != NULL)
 			break ;
-		if (isquote (content[i]) == TRUE)
-			break ;
 		i++;
+		if (content[i - 1] >= '0' && content[i - 1] <= '9')
+			break ;
 	}
 	tmp = my_substr (content, 0, i);
 	result = getenv (tmp + 1);
@@ -60,7 +60,7 @@ char	*handle_text(char *content, int *index)
 	return (NULL);
 }
 
-char	*expand_token(char *content)
+char	*expand_token(char *content, t_token **token)
 {
 	int		i;
 	char	*result;
@@ -76,7 +76,7 @@ char	*expand_token(char *content)
 			if (isquote (content[i]) == TRUE)
 				tmp = handle_quote (content + i, &i);
 			else if (content[i] == '$')
-				tmp = handle_dollar_sign (content + i, &i);
+				tmp = expand_variable (content + i, token, &i);
 			else
 				tmp = handle_text (content + i, &i);
 			result = join_string (&result, &tmp);
@@ -93,10 +93,23 @@ void	expander(t_token **token)
 	first_token = *token;
 	while (*token != NULL)
 	{
-		tmp = (*token)->content;
-		(*token)->content = expand_token (tmp);
-		free (tmp);
-		*token = (*token)->next;
+		if ((*token)->type != HEREDOC)
+		{
+			tmp = (*token)->content;
+			(*token)->content = expand_token (tmp, token);
+			free (tmp);
+			*token = (*token)->next;
+		}
+		else
+		{
+			if ((*token)->next != NULL && (*token)->next->type == WORD)
+				*token = (*token)->next->next;
+			else
+				*token = (*token)->next;
+		}
 	}
-	*token = first_token;
+	if (first_token->prev == NULL)
+		*token = first_token;
+	else
+		*token = first_token->prev;
 }

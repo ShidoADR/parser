@@ -42,12 +42,8 @@ char	*remove_quote(char *content, char quote)
 char	*handle_single_quote(char *content, int *index)
 {
 	char	*content_handled;
-	int		len;
 
-	len = 1;
-	while (content[len] != '\0' && content[len] != '\'')
-		len++;
-	*index += len + 1;
+	*index += quoted_text_length (content, '\'');
 	content_handled = remove_quote (content, '\'');
 	return (content_handled);
 }
@@ -76,7 +72,7 @@ char	*handle_double_quote(char *content, int *index)
 			tmp = handle_quoted_text (removed_quote + i, &i);
 		content_handled = join_string (&content_handled, &tmp);
 	}
-	*index += my_strlen (content);
+	*index += quoted_text_length (content, '\"');
 	free (removed_quote);
 	return (content_handled);
 }

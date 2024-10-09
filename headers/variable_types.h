@@ -3,13 +3,13 @@
 
 typedef enum e_bool
 {
-	FALSE = 0,
+	FALSE,
 	TRUE
 }	t_bool;
 
 typedef enum e_token_type
 {
-	WORD = 2,
+	WORD,
 	PIPE,
 	REDIR_IN,
 	REDIR_OUT,
