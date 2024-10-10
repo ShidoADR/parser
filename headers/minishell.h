@@ -86,6 +86,7 @@ int				find_next_quote(char *prompt, char quote);
 t_bool			my_isspace(char c);
 int				my_strlen(const char *s);
 char			*my_strchr(const char *s, int c);
+char			**my_split(char const *s);
 char			*my_strjoin(const char *s1, const char *s2);
 char			*my_substr(const char *s, int start, int len);
 int				my_strncmp(const char *s1, const char *s2, size_t n);

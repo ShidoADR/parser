@@ -23,7 +23,7 @@ char	*handle_dollar_sign(char *content, int *index)
 	if (content == NULL)
 		return (NULL);
 	i = 1;
-	get_variable(content, &i);
+	get_variable (content, &i);
 	tmp = my_substr (content, 0, i);
 	result = getenv (tmp + 1);
 	free (tmp);

@@ -19,13 +19,11 @@ void	get_variable(char *content, int *i)
 			while (content[*i] != '\0')
 			{
 				if (my_isalpha (content[*i]) == TRUE)
-				{
-					if (content[*i] == '_')
-					{
-						if (content[*i] >= '0' && content[*i] <= '9')
-							*i += 1;
-					}
-				}
+					*i += 1;
+				else if (content[*i] == '_')
+					*i += 1;
+				else if (content[*i] >= '0' && content[*i] <= '9')
+					*i += 1;
 				else
 					break ;
 			}
