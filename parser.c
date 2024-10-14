@@ -1,4 +1,5 @@
 #include "headers/minishell.h"
+#include "headers/struct.h"
 
 void	print_token(t_token *token)
 {

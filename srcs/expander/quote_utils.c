@@ -59,8 +59,7 @@ char	*handle_double_quote(char *content, int *index)
 	if (removed_quote && removed_quote[0] == '\0')
 	{
 		*index += 2;
-		free (removed_quote);
-		return (NULL);
+		return (removed_quote);
 	}
 	content_handled = NULL;
 	i = 0;

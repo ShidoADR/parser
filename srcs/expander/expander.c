@@ -1,4 +1,5 @@
 #include "../../headers/minishell.h"
+#include <stdlib.h>
 
 char	*join_string(char **s1, char **s2)
 {
@@ -22,12 +23,21 @@ char	*handle_dollar_sign(char *content, int *index)
 
 	if (content == NULL)
 		return (NULL);
+	if (content[1] == '\0')
+	{
+		*index += 1;
+		return (my_substr ("$", 0, 1));
+	}
 	i = 1;
 	get_variable (content, &i);
 	tmp = my_substr (content, 0, i);
 	result = getenv (tmp + 1);
 	free (tmp);
+	if (i == 1)
+		i += 1;
 	*index += i;
+	if (result == NULL)
+		return (NULL);
 	return (my_substr (result, 0, my_strlen (result)));
 }
 
@@ -100,7 +110,7 @@ void	expander(t_token **token)
 				*token = (*token)->next;
 		}
 	}
-	while (first_token->prev != NULL)
+	while (first_token != NULL && first_token->prev != NULL)
 		first_token = first_token->prev;
 	*token = first_token;
 }

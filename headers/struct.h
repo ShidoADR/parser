@@ -11,20 +11,28 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
+typedef struct s_hdoc
+{
+	char			*delimiter;
+	t_bool			expandable;
+	struct s_hdoc	*next;
+	struct s_hdoc	*prev;
+}	t_hdoc;
+
 typedef struct s_command
 {
 	char				*command;
-	char				*arguments;
-	struct s_command	*left;
-	struct s_command	*right;
-	struct s_command	*parent;
+	char				**arguments;
+	struct s_command	*next;
+	struct s_command	*prev;
 }	t_command;
 
 typedef struct s_command_table
 {
-	struct s_command	*command;
 	char				*input;
 	char				*output;
+	struct s_command	*command;
+	struct s_hdoc		*here_doc;
 }	t_command_table;
 
 #endif
