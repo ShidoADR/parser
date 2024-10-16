@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/23 11:23:53 by hariandr          #+#    #+#             */
+/*   Updated: 2024/10/16 15:42:39 by hariandr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../headers/minishell.h"
 #include <stdlib.h>
 
@@ -27,6 +39,11 @@ char	*handle_dollar_sign(char *content, int *index)
 	{
 		*index += 1;
 		return (my_substr ("$", 0, 1));
+	}
+	if (isquote (content[1]) == TRUE)
+	{
+		*index += 1;
+		return (NULL);
 	}
 	i = 1;
 	get_variable (content, &i);
