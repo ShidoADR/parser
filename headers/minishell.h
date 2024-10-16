@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/16 13:53:22 by hariandr          #+#    #+#             */
+/*   Updated: 2024/10/16 15:08:02 by hariandr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -48,12 +60,6 @@ void			check_token(t_token **token, char **result, char **chain,
 					char **s);
 
 	/*
-	***--------is_variable.c----------
-	*/
-t_bool			my_isalpha(char c);
-void			get_variable(char *content, int *i);
-
-	/*
 	***-------quote_utils.c----------
 	*/
 char			*remove_quote(char *content, char quote);
@@ -61,6 +67,14 @@ char			*handle_quote(char *content, int *index);
 char			*handle_quoted_text(char *content, int *index);
 char			*handle_single_quote(char *content, int *index);
 char			*handle_double_quote(char *content, int *index);
+
+	/*
+	***--------variable.c----------
+	*/
+t_bool			my_isalpha(char c);
+void			get_variable(char *content, int *i);
+char			*process_removed_quote(char *removed_quote);
+char			*process_dollar_sign(char *removed_quote, int *i);
 
 /*
 ***----------srcs/lexer-------------

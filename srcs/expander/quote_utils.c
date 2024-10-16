@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/25 12:20:23 by hariandr          #+#    #+#             */
+/*   Updated: 2024/10/16 15:28:35 by hariandr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../headers/minishell.h"
 
 char	*handle_quoted_text(char *content, int *index)
@@ -61,12 +73,22 @@ char	*handle_double_quote(char *content, int *index)
 		*index += 2;
 		return (removed_quote);
 	}
+	if (removed_quote == NULL)
+		return (NULL);
 	content_handled = NULL;
 	i = 0;
 	while (removed_quote[i] != '\0')
 	{
 		if (removed_quote[i] == '$')
-			tmp = handle_dollar_sign (removed_quote + i, &i);
+		{
+			if (removed_quote[i + 1] == '\'')
+			{
+				i += 1;
+				tmp = my_substr ("$", 0, 1);
+			}
+			else
+				tmp = handle_dollar_sign (removed_quote + i, &i);
+		}
 		else
 			tmp = handle_quoted_text (removed_quote + i, &i);
 		content_handled = join_string (&content_handled, &tmp);
