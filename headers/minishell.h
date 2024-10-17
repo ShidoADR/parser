@@ -73,7 +73,8 @@ char			*handle_double_quote(char *content, int *index);
 	*/
 t_bool			my_isalpha(char c);
 void			get_variable(char *content, int *i);
-char			*process_removed_quote(char *removed_quote);
+char			*handle_content(char *removed_quote);
+t_bool			check_var_content(char *content, int *index);
 char			*process_dollar_sign(char *removed_quote, int *i);
 
 /*

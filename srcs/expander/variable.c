@@ -42,3 +42,48 @@ void	get_variable(char *content, int *i)
 		}
 	}
 }
+
+t_bool	check_var_content(char *content, int *index)
+{
+	if (content == NULL)
+		return (TRUE);
+	if (isquote (content[1]) == TRUE)
+	{
+		*index += 1;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+char	*process_dollar_sign(char *removed_quote, int *i)
+{
+	char	*tmp;
+
+	if (removed_quote[*i + 1] == '\'')
+	{
+		*i += 1;
+		tmp = my_substr ("$", 0, 1);
+	}
+	else
+		tmp = handle_dollar_sign (removed_quote + *i, i);
+	return (tmp);
+}
+
+char	*handle_content(char *removed_quote)
+{
+	int		i;
+	char	*tmp;
+	char	*content_handled;
+
+	i = 0;
+	content_handled = NULL;
+	while (removed_quote[i] != '\0')
+	{
+		if (removed_quote[i] == '$')
+			tmp = process_dollar_sign (removed_quote, &i);
+		else
+			tmp = handle_quoted_text (removed_quote + i, &i);
+		content_handled = join_string (&content_handled, &tmp);
+	}
+	return (content_handled);
+}

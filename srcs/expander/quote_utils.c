@@ -62,37 +62,18 @@ char	*handle_single_quote(char *content, int *index)
 
 char	*handle_double_quote(char *content, int *index)
 {
-	int		i;
-	char	*tmp;
-	char	*content_handled;
 	char	*removed_quote;
+	char	*content_handled;
 
 	removed_quote = remove_quote (content, '\"');
-	if (removed_quote && removed_quote[0] == '\0')
+	if (removed_quote == NULL)
+		return (NULL);
+	if (removed_quote[0] == '\0')
 	{
 		*index += 2;
 		return (removed_quote);
 	}
-	if (removed_quote == NULL)
-		return (NULL);
-	content_handled = NULL;
-	i = 0;
-	while (removed_quote[i] != '\0')
-	{
-		if (removed_quote[i] == '$')
-		{
-			if (removed_quote[i + 1] == '\'')
-			{
-				i += 1;
-				tmp = my_substr ("$", 0, 1);
-			}
-			else
-				tmp = handle_dollar_sign (removed_quote + i, &i);
-		}
-		else
-			tmp = handle_quoted_text (removed_quote + i, &i);
-		content_handled = join_string (&content_handled, &tmp);
-	}
+	content_handled = handle_content (removed_quote);
 	*index += quoted_text_length (content, '\"');
 	free (removed_quote);
 	return (content_handled);

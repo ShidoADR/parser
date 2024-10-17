@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <stdlib.h>
 
 char	*join_string(char **s1, char **s2)
 {
@@ -33,17 +32,12 @@ char	*handle_dollar_sign(char *content, int *index)
 	char	*tmp;
 	char	*result;
 
-	if (content == NULL)
+	if (check_var_content (content, index) == TRUE)
 		return (NULL);
 	if (content[1] == '\0')
 	{
 		*index += 1;
 		return (my_substr ("$", 0, 1));
-	}
-	if (isquote (content[1]) == TRUE)
-	{
-		*index += 1;
-		return (NULL);
 	}
 	i = 1;
 	get_variable (content, &i);

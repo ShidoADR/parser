@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-t_command_table init_command(void)
+t_command_table	init_command(void)
 {
 	t_command_table	command;
 
@@ -127,7 +127,7 @@ t_bool	handle_redirection(t_token **token, t_command_table *command)
 	return (TRUE);
 }
 
-t_command_table parser(t_token **token)
+t_command_table	parser(t_token **token)
 {
 	t_command_table	command;
 
