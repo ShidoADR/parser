@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:59:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/09/18 15:03:35 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:39:20 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 int	my_strlen(const char *s)
 {

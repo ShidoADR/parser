@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:37 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/16 14:30:57 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:40:06 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 void	print_token(t_token *token)
 {

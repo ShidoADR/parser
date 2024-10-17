@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:19:05 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/16 15:28:12 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:36:48 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 t_bool	my_isalpha(char c)
 {

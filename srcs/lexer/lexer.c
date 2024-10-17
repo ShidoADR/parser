@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:54:57 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/11 09:38:57 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:37:25 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 t_token_type	get_token_type(char *content)
 {

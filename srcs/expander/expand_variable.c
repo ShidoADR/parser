@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 10:04:49 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/11 10:55:20 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:35:57 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 int	quoted_text_length(char *content, char quote)
 {

@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:57:49 by hariandr          #+#    #+#             */
-/*   Updated: 2024/09/18 15:05:00 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:39:48 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 char	*my_substr(const char *s, int start, int len)
 {

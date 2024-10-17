@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:19:01 by hariandr          #+#    #+#             */
-/*   Updated: 2024/09/18 15:19:18 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:38:36 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 t_bool	my_isspace(char c)
 {

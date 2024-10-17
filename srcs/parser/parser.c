@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:22:04 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/15 10:15:54 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:38:00 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 t_command_table	init_command(void)
 {

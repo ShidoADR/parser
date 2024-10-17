@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:50:14 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/16 14:24:38 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:36:13 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 int	first_value_index(char *content)
 {

@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:38:00 by hariandr          #+#    #+#             */
-/*   Updated: 2024/09/23 10:43:17 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:37:16 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 int	token_size(t_token *token)
 {

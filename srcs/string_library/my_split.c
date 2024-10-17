@@ -6,11 +6,11 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 09:59:07 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/16 14:27:31 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:38:46 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include <minishell.h>
 
 static int	get_index(char const *s)
 {
