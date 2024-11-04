@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:22 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/16 15:08:02 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:29:20 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,12 @@
 	***--------error_handler.c-----------
 	*/
 void			print_error(char *s, int status);
-void			print_custom_error(char *s, int status);
+void			print_custom_error(char *s);
+
+	/*
+	***-----------lexer_error.c----------
+	*/
+t_status		is_valid_token(t_token *token);
 
 /*
 ***---------srcs/expander-----------

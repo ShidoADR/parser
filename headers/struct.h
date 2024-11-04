@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:52:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/14 12:19:46 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:36:00 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,6 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-typedef struct s_hdoc
-{
-	char			*delimiter;
-	t_bool			expandable;
-	struct s_hdoc	*next;
-	struct s_hdoc	*prev;
-}	t_hdoc;
-
 typedef struct s_command
 {
 	char				*command;
@@ -41,10 +33,17 @@ typedef struct s_command
 
 typedef struct s_command_table
 {
-	char				*input;
-	char				*output;
+	struct s_token		*redir;
 	struct s_command	*command;
-	struct s_hdoc		*here_doc;
 }	t_command_table;
+
+typedef struct s_shell
+{
+	char					**env;
+	int						status;
+	struct s_token			*token;
+	char					*prompt;
+	struct s_command_table	command;
+}	t_shell;
 
 #endif
