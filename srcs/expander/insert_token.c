@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:50:14 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/17 14:36:13 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:03:38 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,16 @@ void	add_new_token(t_token **token, t_token *new_token)
 
 void	insert_token(t_token **token, char **chain)
 {
-	int	i;
+	int		i;
+	t_token	*new;
 
 	i = 0;
 	while (chain[i] != NULL)
 	{
 		if (chain[i + 1] == NULL)
 			break ;
-		add_new_token (token, new_token (WORD, chain[i]));
+		new = new_token(WORD, chain[i], (*token)->shell);
+		add_new_token (token, new);
 		i++;
 	}
 }
@@ -71,7 +73,7 @@ void	check_token(t_token **token, char **result, char **chain, char **s)
 		tmp = my_substr (*s, 0, my_strlen (*s));
 		free (*s);
 		*s = NULL;
-		add_new_token (token, new_token (WORD, tmp));
+		add_new_token (token, new_token (WORD, tmp, (*token)->shell));
 	}
 	else if (*s != NULL)
 		chain[0] = join_string (s, &chain[0]);

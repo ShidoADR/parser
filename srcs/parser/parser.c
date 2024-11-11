@@ -5,126 +5,80 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 12:22:04 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/17 14:38:00 by hariandr         ###   ########.fr       */
+/*   Created: 2024/11/11 12:34:42 by hariandr          #+#    #+#             */
+/*   Updated: 2024/11/11 12:44:31 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_command_table	init_command(void)
+void	add_args(int *i, char **args, t_token **token)
 {
-	t_command_table	command;
-
-	command.command = NULL;
-	command.here_doc = NULL;
-	command.input = NULL;
-	command.output = NULL;
+	if ((*token)->type == WORD)
+	{
+		args[*i] = my_strdup ((*token)->content);
+		*i += 1;
+	}
+	if (check_redir (*token) == TRUE)
+		(*token) = (*token)->next;
 }
 
-t_bool	check_input(t_token *token)
+char	**get_args(t_token **token)
 {
-	while (token != NULL)
-	{
-		if (token->type == REDIR_IN || token->type == HEREDOC)
-			return (TRUE);
-		token = token->next;
-	}
-	return (FALSE);
-}
+	int		i;
+	int		size;
+	char	**args;
 
-t_bool	check_output(t_token *token)
-{
-	while (token != NULL)
+	size = arg_size (*token);
+	args = (char **)malloc(sizeof (char *) * (size + 1));
+	if (args == NULL)
+		return (NULL);
+	i = 0;
+	while (*token != NULL)
 	{
-		if (token->type == REDIR_OUT || token->type == APPEND)
-			return (TRUE);
-		token = token->next;
-	}
-	return (FALSE);
-}
-
-void	add_redir(t_token **token, t_command_table *command)
-{
-	t_token	*prev;
-	t_token	*next;
-
-	if (command->input != NULL)
-	{
-		free (command->input);
-		command->input = NULL;
-	}
-	prev = (*token)->prev;
-	next = (*token)->next;
-	free ((*token)->content);
-	free (*token);
-	command->input = next->content;
-	if (next->next != NULL)
-	{
-		next->next->prev = prev;
-		if (prev != NULL)
-			prev->next = next->next;
+		if ((*token)->type != PIPE)
+			add_args (&i, args, token);
 		else
-			(*token) = next->next;
-		free (next);
+			break ;
+		(*token) = (*token)->next;
 	}
+	args[i] = NULL;
+	return (args);
 }
 
-t_bool	handle_input(t_token **token, t_command_table *command)
+t_command	*get_command(t_token **token)
 {
-	t_token	*var;
+	char		*cmd;
+	char		**args;
+	t_command	*command;
 
-	var = *token;
-	while (var != NULL)
+	cmd = my_strdup ((*token)->content);
+	*token = (*token)->next;
+	args = get_args (token);
+	command = new_command (cmd, args);
+	return (command);
+}
+
+t_command	*handle_command(t_token **token)
+{
+	t_token		*tmp;
+	t_command	*command;
+
+	tmp = *token;
+	command = NULL;
+	while (tmp != NULL)
 	{
-		if (var->type == REDIR_IN && var->next != NULL)
+		if (tmp->type == WORD)
 		{
-			if (var->next->type != WORD)
-				return (FALSE);
-			add_redir (&var, command);
+			if (tmp->prev != NULL && check_redir (tmp->prev) == FALSE)
+				add_command (&command, get_command(&tmp));
+			else if (tmp->prev == NULL)
+				add_command (&command, get_command(&tmp));
 		}
-		else if (var->type == REDIR_IN)
-			return (FALSE);
-		else
-			var = var->next;
+		if (tmp != NULL)
+			tmp = tmp->next;
 	}
-	return (TRUE);
-}
-
-t_bool	handle_output(t_token **token, t_command_table *command)
-{
-	t_token	*var;
-
-	var = *token;
-	while (var != NULL)
-	{
-		if (var->type == REDIR_OUT && var->next != NULL)
-		{
-			if (var->next->type != WORD)
-				return (FALSE);
-			add_redir (&var, command);
-		}
-		else if (var->type == REDIR_OUT)
-			return (FALSE);
-		else
-			var = var->next;
-	}
-	return (TRUE);
-}
-
-t_bool	handle_redirection(t_token **token, t_command_table *command)
-{
-	if (check_input (*token) == TRUE)
-	{
-		if (handle_input (token, command) == FALSE)
-			return (FALSE);
-	}
-	if (check_output (*token) == TRUE)
-	{
-		if (handle_output(token, command) == FALSE)
-			return (FALSE);
-	}
-	return (TRUE);
+	return (command);
 }
 
 t_command_table	parser(t_token **token)
@@ -133,5 +87,6 @@ t_command_table	parser(t_token **token)
 
 	command = init_command ();
 	handle_redirection (token, &command);
+	command.command = handle_command (token);
 	return (command);
 }

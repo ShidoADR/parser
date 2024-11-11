@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:54:57 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/17 14:37:25 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:58:28 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,12 @@ char	*get_token(char *prompt, int *i)
 	return (my_substr (prompt, 0, j));
 }
 
-t_token	*lexer(char *prompt)
+t_token	*lexer(char *prompt, t_shell *shell)
 {
 	int		i;
 	char	*tmp;
 	t_token	*token;
+	t_token	*new;
 
 	if (prompt == NULL)
 		return (NULL);
@@ -94,7 +95,8 @@ t_token	*lexer(char *prompt)
 		if (prompt[i] == '\0')
 			return (token);
 		tmp = get_token (prompt + i, &i);
-		add_back (&token, new_token (get_token_type (tmp), tmp));
+		new = new_token (get_token_type(tmp), tmp, shell);
+		add_back (&token, new);
 		i++;
 	}
 	return (token);

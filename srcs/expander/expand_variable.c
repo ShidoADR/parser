@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 10:04:49 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/18 13:36:02 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:14:11 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*expand_variable(char **s, char *content, t_token **token, int *i)
 	char	**chain;
 	t_bool	is_space;
 
-	result = handle_dollar_sign (content, i);
+	result = handle_dollar_sign (content, i, *token);
 	if (check_space (result) == TRUE)
 	{
 		chain = my_split (result);
@@ -57,7 +57,7 @@ char	*expand_variable(char **s, char *content, t_token **token, int *i)
 			free (result);
 			result = NULL;
 			if (is_space)
-				add_new_token (token, new_token (WORD, tmp));
+				add_new_token (token, new_token (WORD, tmp, (*token)->shell));
 			else
 				result = tmp;
 			free (chain);

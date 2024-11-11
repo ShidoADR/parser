@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 13:47:50 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/04 10:35:00 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:21:56 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ t_status	check_word(char *content)
 				quote = content[i];
 				if (is_quote_closed (content + i + 1, quote, &i) == FALSE)
 				{
-					print_custom_error ("unexpected EOF while looking for matching `");
+					print_custom_error ("unexpected EOF while looking");
+					write (2, " for matching `", 15);
 					write (2, &quote, 1);
-					write (1, "\'\n", 2);
+					write (2, "\'\n", 2);
 					return (2);
 				}
 			}
@@ -55,30 +56,53 @@ t_status	check_word(char *content)
 	return (0);
 }
 
+t_status	is_valid_redir(t_token *token)
+{
+	t_token		*next;
+
+	if (token->next == NULL)
+	{
+		print_custom_error ("syntax error near unexpected token `newline\'\n");
+		return (2);
+	}
+	next = token->next;
+	if (token->type == REDIR_IN && token->next->type == REDIR_OUT)
+		return (0);
+	if (token->next->type != WORD)
+	{
+		print_custom_error("syntax error near unexpected token `");
+		write (2, next->content, my_strlen (next->content));
+		write (2, "\'\n", 2);
+		return (2);
+	}
+	return (0);
+}
+
+t_status	is_valid_pipe(t_token *token)
+{
+	if (token->next == NULL || token->prev == NULL)
+	{
+		print_custom_error ("syntax error near unexpected token `|\'\n");
+		return (2);
+	}
+	if (token->next->type != WORD || token->prev->type != WORD)
+	{
+		print_custom_error ("syntax error near unexpected token `|\'\n");
+		return (2);
+	}
+	return (0);
+}
+
 t_status	is_valid_token(t_token *token)
 {
 	if (token != NULL)
 	{
 		while (token != NULL)
 		{
-			if (token->type > 1 && token->next == NULL)
-			{
-				print_custom_error ("syntax error near unexpected token `newline\'\n");
+			if (token->type > 1 && is_valid_redir(token) == 2)
 				return (2);
-			}
-			if (token->type == PIPE)
-			{
-				if (token->next == NULL || token->prev == NULL)
-				{
-					print_custom_error ("syntax error near unexpected token `|\'\n");
-					return (2);
-				}
-				if (token->next->type != WORD || token->prev->type != WORD)
-				{
-					print_custom_error ("syntax error near unexpected token `|\'\n");
-					return (2);
-				}
-			}
+			if (token->type == PIPE && is_valid_pipe(token) == 2)
+				return (2);
 			if (token->type == WORD && check_word (token->content) != 0)
 				return (2);
 			token = token->next;

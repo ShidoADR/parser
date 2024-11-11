@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:20:23 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/18 13:29:32 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:24:29 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*handle_single_quote(char *content, int *index)
 	return (content_handled);
 }
 
-char	*handle_double_quote(char *content, int *index)
+char	*handle_double_quote(char *content, int *index, t_token *token)
 {
 	char	*removed_quote;
 	char	*content_handled;
@@ -73,13 +73,13 @@ char	*handle_double_quote(char *content, int *index)
 		*index += 2;
 		return (removed_quote);
 	}
-	content_handled = handle_content (removed_quote);
+	content_handled = handle_content (removed_quote, token);
 	*index += quoted_text_length (content, '\"');
 	free (removed_quote);
 	return (content_handled);
 }
 
-char	*handle_quote(char *content, int *index)
+char	*handle_quote(char *content, int *index, t_token *token)
 {
 	int		i;
 	char	*result;
@@ -91,7 +91,7 @@ char	*handle_quote(char *content, int *index)
 		if (content[i] == '\'')
 			result = handle_single_quote (content, &i);
 		else
-			result = handle_double_quote (content, &i);
+			result = handle_double_quote (content, &i, token);
 		*index += i;
 	}
 	return (result);

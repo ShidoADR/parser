@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:52:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/18 14:36:00 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:54:54 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef struct s_token
 {
+	struct s_shell	*shell;
 	char			*content;
 	struct s_token	*next;
 	struct s_token	*prev;

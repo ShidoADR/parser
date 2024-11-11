@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:38:00 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/17 14:37:16 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:55:42 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	token_size(t_token *token)
 	if (token == NULL)
 		return (0);
 	if (token->next != NULL)
-		return (token_size (token) + 1);
+		return (token_size (token->next) + 1);
 	return (1);
 }
 
@@ -40,7 +40,8 @@ void	delete_token(t_token **token)
 {
 	if (*token != NULL)
 	{
-		free ((*token)->content);
+		if ((*token)->content != NULL)
+			free ((*token)->content);
 		(*token)->content = NULL;
 		free ((*token));
 		(*token) = NULL;
@@ -57,7 +58,7 @@ void	clear_token(t_token **token)
 	}
 }
 
-t_token	*new_token(t_token_type type, char *content)
+t_token	*new_token(t_token_type type, char *content, t_shell *shell)
 {
 	t_token	*token;
 
@@ -65,6 +66,7 @@ t_token	*new_token(t_token_type type, char *content)
 	if (token == NULL)
 		return (NULL);
 	token->content = content;
+	token->shell = shell;
 	token->type = type;
 	token->next = NULL;
 	token->prev = NULL;

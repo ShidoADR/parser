@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:19:05 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/17 14:36:48 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:25:14 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_bool	check_var_content(char *content, int *index)
 	return (FALSE);
 }
 
-char	*process_dollar_sign(char *removed_quote, int *i)
+char	*process_dollar_sign(char *removed_quote, int *i, t_token *token)
 {
 	char	*tmp;
 
@@ -65,11 +65,11 @@ char	*process_dollar_sign(char *removed_quote, int *i)
 		tmp = my_substr ("$", 0, 1);
 	}
 	else
-		tmp = handle_dollar_sign (removed_quote + *i, i);
+		tmp = handle_dollar_sign (removed_quote + *i, i, token);
 	return (tmp);
 }
 
-char	*handle_content(char *removed_quote)
+char	*handle_content(char *removed_quote, t_token *token)
 {
 	int		i;
 	char	*tmp;
@@ -80,7 +80,7 @@ char	*handle_content(char *removed_quote)
 	while (removed_quote[i] != '\0')
 	{
 		if (removed_quote[i] == '$')
-			tmp = process_dollar_sign (removed_quote, &i);
+			tmp = process_dollar_sign (removed_quote, &i, token);
 		else
 			tmp = handle_quoted_text (removed_quote + i, &i);
 		content_handled = join_string (&content_handled, &tmp);

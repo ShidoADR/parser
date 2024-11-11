@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:23:53 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/16 15:42:39 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:29:30 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*join_string(char **s1, char **s2)
 	return (result);
 }
 
-char	*handle_dollar_sign(char *content, int *index)
+char	*handle_dollar_sign(char *content, int *index, t_token *token)
 {
 	int		i;
 	char	*tmp;
@@ -34,6 +34,8 @@ char	*handle_dollar_sign(char *content, int *index)
 
 	if (check_var_content (content, index) == TRUE)
 		return (NULL);
+	if (content[1] == '?')
+		return (get_status (token, index));
 	if (content[1] == '\0')
 	{
 		*index += 1;
@@ -87,7 +89,7 @@ char	*expand_token(char *content, t_token **token)
 		while (content[i] != '\0')
 		{
 			if (isquote (content[i]) == TRUE)
-				tmp = handle_quote (content + i, &i);
+				tmp = handle_quote (content + i, &i, *token);
 			else if (content[i] == '$')
 				tmp = expand_variable (&result, content + i, token, &i);
 			else
