@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:51:37 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/20 13:06:26 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:03:19 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_shell	init_shell(char **env)
 {
 	t_shell	shell;
 
+	shell.is_ambigous = FALSE;
 	shell.env = ft_fill_data(env);
 	shell.export = ft_fill_data(env);
 	sort_env(&shell);
@@ -109,7 +110,16 @@ t_status	to_parse(t_shell *shell)
 	if (is_valid_token(shell->token) == 0)
 	{
 		expander(&shell->token);
-		shell->command = parser(&shell->token);
+		print_token(shell->token);
+		if (shell->is_ambigous == TRUE)
+		{
+			print_custom_error("ambiguous redirect\n");
+			shell->is_ambigous = FALSE;
+			shell->status = 1;
+			valid = 1;
+		}
+		else
+			shell->command = parser(&shell->token);
 	}
 	else
 	{
@@ -312,9 +322,7 @@ int	main(int ac, char **av, char **env)
 			g_sig = 0;
 		}
 		add_history(shell.prompt);
-		if (to_parse(&shell) != 0)
-			shell.status = 2;
-		else
+		if (to_parse(&shell) == 0)
 		{
 			if (handle_redir (&shell) == 0)
 				launch_executor(&shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: hariandr <hariandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 10:04:49 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 13:14:11 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:11:27 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

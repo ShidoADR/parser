@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
+/*   By: hariandr <hariandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:52:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/19 13:33:15 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:36:34 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_command_table
 
 typedef struct s_shell
 {
+	t_bool					is_ambigous;
 	char					*path;
 	char					**env;
 	int						status;

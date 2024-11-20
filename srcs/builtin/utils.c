@@ -223,7 +223,7 @@ char	*get_env(char *s, t_shell *data)
 	while (data->env[i] != NULL)
 	{
 		if (ft_strncmp(s, data->env[i], ft_strlen(s)) == 0)
-			return (data->env[i]);
+			return ((data->env[i]) + ft_strlen (s) + 1);
 		i++;
 	}
 	return (NULL);

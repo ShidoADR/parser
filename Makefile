@@ -1,3 +1,7 @@
+# ------------FLAGS------------------
+
+MAKEFLAGS += --no-print-directory
+
 # ------------FUNCTIONS---------------
 
 define	check_program
@@ -36,6 +40,10 @@ LDFLAGS = -lreadline
 
 INCLUDE_DIR = -I srcs/get_next_line/ -I headers/
 
+LIBFT_DIR = libft
+
+LIBFT = $(LIBFT_DIR)/libft.a
+
 LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
 			$(addprefix expander/, expand_variable.c expander.c insert_token.c variable.c quote_utils.c \
 			status_utils.c) \
@@ -50,7 +58,7 @@ LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
 
 MAIN = main.c
 
-SRCS = $(MAIN) $(addprefix srcs/, $(LIBRARY))
+SRCS = $(addprefix srcs/, $(LIBRARY)) $(MAIN)
 
 OBJ_DIR = objs
 
@@ -62,21 +70,26 @@ OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 all : $(NAME)
 
+$(LIBFT) :
+	@ $(MAKE) -C $(LIBFT_DIR)
+
 $(OBJ_DIR)/%.o : %.c
 	@ mkdir -p $(@D)
 	@ $(CC) $(FLAGS) -c $< -o $@ $(INCLUDE_DIR)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(LIBFT)
 	$(call loading, "Compiling", 0, \e[1;35m)
-	@ $(CC) $(FLAGS) $(LDFLAGS) $(OBJS) -o $(NAME) -Llibft -lft $(INCLUDE_DIR)
+	@ $(CC) $(FLAGS) $(LDFLAGS) $(LIBFT) $(OBJS) -o $(NAME) -Llibft -lft $(INCLUDE_DIR)
 	$(call check_program, $(NAME))
 
 clean :
 	$(call loading, "cleaning", 0, \e[1;36m)
 	@ rm -rf $(OBJ_DIR)
+	@ make -C $(LIBFT_DIR) clean
 
 fclean : clean
 	@ rm -f $(NAME)
+	@ make -C $(LIBFT_DIR) fclean
 
 re : fclean all
 

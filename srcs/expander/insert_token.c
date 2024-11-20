@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   insert_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: hariandr <hariandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:50:14 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 13:03:38 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:07:38 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	check_token(t_token **token, char **result, char **chain, char **s)
 
 	if (*s != NULL && my_isspace (*result[0]) == TRUE)
 	{
+		if ((*token)->prev != NULL && check_redir ((*token)->prev) == TRUE)
+			(*token)->shell->is_ambigous = TRUE;
 		tmp = my_substr (*s, 0, my_strlen (*s));
 		free (*s);
 		*s = NULL;
