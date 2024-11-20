@@ -40,6 +40,8 @@ int	find_next_quote(char *prompt, char quote)
 
 	if (prompt == NULL)
 		return (0);
+	if (prompt[0] == '\0')
+		return (1);
 	len = 0;
 	while (prompt[len] != '\0' && prompt[len] != quote)
 		len++;
@@ -83,7 +85,7 @@ t_token	*lexer(char *prompt, t_shell *shell)
 	char	*tmp;
 	t_token	*token;
 	t_token	*new;
-
+	
 	if (prompt == NULL)
 		return (NULL);
 	token = NULL;
@@ -97,7 +99,8 @@ t_token	*lexer(char *prompt, t_shell *shell)
 		tmp = get_token (prompt + i, &i);
 		new = new_token (get_token_type(tmp), tmp, shell);
 		add_back (&token, new);
-		i++;
+		if (prompt[i] != '\0')
+			i++;
 	}
 	return (token);
 }

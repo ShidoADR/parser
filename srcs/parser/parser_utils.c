@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 10:02:52 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 12:44:22 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/19 09:42:44 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ t_command_table	init_command(void)
 
 	command.command = NULL;
 	command.redir = NULL;
+	command.input = NULL;
+	command.output = NULL;
+	command.here_doc.here_doc[0] = -1;
+	command.here_doc.here_doc[1] = -1;
 	return (command);
 }
 
@@ -52,7 +56,7 @@ void	handle_redirection(t_token **token, t_command_table *command)
 	tmp = *token;
 	while (tmp != NULL)
 	{
-		if (check_redir (tmp) == TRUE && tmp->next->type == WORD)
+		if (check_redir (tmp) == TRUE && tmp->next != NULL && tmp->next->type == WORD)
 		{
 			add_back (&command->redir, get_redir (tmp));
 			tmp = tmp->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:23:53 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 13:29:30 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:44:37 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*handle_dollar_sign(char *content, int *index, t_token *token)
 	i = 1;
 	get_variable (content, &i);
 	tmp = my_substr (content, 0, i);
-	result = getenv (tmp + 1);
+	result =  get_env (content + 1, token->shell);
 	free (tmp);
 	if (i == 1)
 		i += 1;

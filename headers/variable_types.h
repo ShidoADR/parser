@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_types.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:44:19 by hariandr          #+#    #+#             */
-/*   Updated: 2024/10/18 14:26:56 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/19 09:02:54 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

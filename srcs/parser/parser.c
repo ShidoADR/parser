@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:34:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 12:44:31 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:51:38 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	**get_args(t_token **token)
 	char	**args;
 
 	size = arg_size (*token);
+	if (size == 0)
+		return (NULL);
 	args = (char **)malloc(sizeof (char *) * (size + 1));
 	if (args == NULL)
 		return (NULL);
@@ -68,7 +70,7 @@ t_command	*handle_command(t_token **token)
 	command = NULL;
 	while (tmp != NULL)
 	{
-		if (tmp->type == WORD)
+		if (tmp->type == WORD && tmp->content != NULL)
 		{
 			if (tmp->prev != NULL && check_redir (tmp->prev) == FALSE)
 				add_command (&command, get_command(&tmp));

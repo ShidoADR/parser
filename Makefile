@@ -32,6 +32,8 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror -g
 
+LDFLAGS = -lreadline
+
 INCLUDE_DIR = -I srcs/get_next_line/ -I headers/
 
 LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
@@ -40,10 +42,13 @@ LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
 			$(addprefix error/, error_handler.c lexer_error.c) \
 			$(addprefix lexer/, init_struct.c lexer.c lexer_utils.c) \
 			$(addprefix string_library/, my_strlen.c my_strncmp.c my_substr.c my_isspace.c my_strchr.c \
-			my_strdup.c my_strjoin.c my_split.c my_itoa.c) \
-			$(addprefix parser/, init_command.c parser.c parser_utils.c redir_utils.c)
+			my_strdup.c my_strjoin.c my_split.c my_itoa.c my_atol.c) \
+			$(addprefix parser/, init_command.c parser.c parser_utils.c redir_utils.c) \
+			$(addprefix builtin/, builtin.c utils.c signal.c) \
+			$(addprefix executor/, executor.c) \
+			$(addprefix redirection/, redirection.c heredoc.c)
 
-MAIN = parser.c
+MAIN = main.c
 
 SRCS = $(MAIN) $(addprefix srcs/, $(LIBRARY))
 
@@ -63,7 +68,7 @@ $(OBJ_DIR)/%.o : %.c
 
 $(NAME) : $(OBJS)
 	$(call loading, "Compiling", 0, \e[1;35m)
-	@ $(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE_DIR)
+	@ $(CC) $(FLAGS) $(LDFLAGS) $(OBJS) -o $(NAME) -Llibft -lft $(INCLUDE_DIR)
 	$(call check_program, $(NAME))
 
 clean :

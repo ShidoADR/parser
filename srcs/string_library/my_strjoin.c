@@ -21,8 +21,8 @@ char	*my_strjoin(const char *s1, const char *s2)
 
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	length = my_strlen (s1) + my_strlen (s2) + 1;
-	result = (char *)malloc (sizeof (char) * length);
+	length = my_strlen(s1) + my_strlen(s2) + 1;
+	result = (char *)malloc(sizeof(char) * length);
 	if (result == NULL)
 		return (NULL);
 	i = 0;

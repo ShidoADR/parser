@@ -80,22 +80,22 @@ char	*my_itoa(int n)
 	char	*result;
 	int		len;
 
-	len = get_lenght (n);
+	len = get_lenght(n);
 	if (n == -2147483648)
 	{
 		result = malloc(12);
 		if (!result)
 			return (0);
-		my_memcpy (result, "-2147483648", 11);
+		my_memcpy(result, "-2147483648", 11);
 		result[11] = '\0';
 		return (result);
 	}
 	else if (n < 0)
-		result = malloc ((sizeof(char) * len) + 2);
+		result = malloc((sizeof(char) * len) + 2);
 	else
-		result = malloc ((sizeof(char) * len) + 1);
+		result = malloc((sizeof(char) * len) + 1);
 	if (!result)
 		return (0);
-	result = get_string (n, len, result);
+	result = get_string(n, len, result);
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:53:22 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 13:33:31 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/19 13:33:24 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <builtin.h>
+#include <../libft/libft.h>
 # include "../srcs/get_next_line/get_next_line.h"
 # include "color.h"
-# include "struct.h"
+
 
 /*
 ***-----------srcs/error-------------
@@ -24,6 +26,8 @@
 	/*
 	***--------error_handler.c-----------
 	*/
+
+
 void			print_error(char *s, int status);
 void			print_custom_error(char *s);
 
@@ -165,8 +169,27 @@ char			*my_strdup(char *s);
 int				my_strlen(const char *s);
 char			**my_split(char const *s);
 char			*my_strchr(const char *s, int c);
+unsigned long	my_atol(const char *str, int *sign);
 char			*my_strjoin(const char *s1, const char *s2);
 char			*my_substr(const char *s, int start, int len);
 int				my_strncmp(const char *s1, const char *s2, size_t n);
+
+/*
+***--------------parser.c---------------
+*/
+
+void			clear_shell(t_shell *shell);
+void			print_command(t_command *command);
+
+/*
+***--------------redirection.c---------------
+*/
+
+t_status	handle_redir(t_shell *shell);
+ int	cmd_here_doc(t_shell *data, t_token *redir_doc);
+ void	launch_executor(t_shell *shell);
+ int here_doc(t_shell *data);
+
+extern volatile sig_atomic_t g_sig;
 
 #endif

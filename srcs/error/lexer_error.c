@@ -17,7 +17,7 @@ t_bool	is_quote_closed(char *content, char quote, int *i)
 	int	len;
 
 	if (content == NULL)
-		return (0);
+		return (FALSE);
 	len = 0;
 	while (content[len] != '\0' && content[len] != quote)
 		len++;
@@ -84,6 +84,15 @@ t_status	is_valid_pipe(t_token *token)
 	{
 		print_custom_error ("syntax error near unexpected token `|\'\n");
 		return (2);
+	}
+	if (token->next->type == PIPE || token->prev->type == PIPE)
+	{
+		if (token->next->next != NULL && token->next->next->type == PIPE)
+		{
+			print_custom_error ("syntax error near unexpected token `|\'\n");
+			return (2);
+		}
+		return (0);
 	}
 	if (token->next->type != WORD || token->prev->type != WORD)
 	{

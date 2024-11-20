@@ -17,7 +17,7 @@ char	*my_strdup(char *s)
 	int		len;
 	char	*result;
 
-	len = my_strlen (s);
-	result = my_substr (s, 0, len);
+	len = my_strlen(s);
+	result = my_substr(s, 0, len);
 	return (result);
 }

@@ -21,9 +21,9 @@ static int	get_index(char const *s)
 	count = 0;
 	while (s[i] != '\0')
 	{
-		if (my_isspace (s[i]) == FALSE)
+		if (my_isspace(s[i]) == FALSE)
 		{
-			if (my_isspace (s[i + 1]) == TRUE || s[i + 1] == '\0')
+			if (my_isspace(s[i + 1]) == TRUE || s[i + 1] == '\0')
 				count++;
 		}
 		i++;
@@ -34,8 +34,8 @@ static int	get_index(char const *s)
 static char	**free_result(char **result, int index)
 {
 	while (index--)
-		free (result[index]);
-	free (result);
+		free(result[index]);
+	free(result);
 	return (0);
 }
 
@@ -49,12 +49,12 @@ static char	**get_chain(char const *s, char **result)
 	j = 0;
 	while (s[i])
 	{
-		while (s[i] && my_isspace (s[i]) == TRUE)
+		while (s[i] && my_isspace(s[i]) == TRUE)
 			i++;
 		if (s[i])
 		{
 			len = 0;
-			while (s[i + len] && my_isspace (s[i + len]) == FALSE)
+			while (s[i + len] && my_isspace(s[i + len]) == FALSE)
 				len++;
 			result[j] = my_substr(s, i, len);
 			if (!result[j])
@@ -71,10 +71,10 @@ char	**my_split(char const *s)
 	char	**result;
 	size_t	len;
 
-	len = get_index (s);
-	result = malloc (sizeof(char *) * (len + 1));
+	len = get_index(s);
+	result = malloc(sizeof(char *) * (len + 1));
 	if (!(result) || !(s))
 		return (0);
 	result[len] = NULL;
-	return (get_chain (s, result));
+	return (get_chain(s, result));
 }
