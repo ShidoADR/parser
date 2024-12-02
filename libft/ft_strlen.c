@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 07:45:13 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/07/23 08:53:29 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:55:50 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ size_t	ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
-		i++;
+	if (s != NULL)
+	{
+		while (s[i] != '\0')
+			i++;
+	}
 	return (i);
 }

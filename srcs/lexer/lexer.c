@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:54:57 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 12:58:28 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:32:51 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_token	*lexer(char *prompt, t_shell *shell)
 	char	*tmp;
 	t_token	*token;
 	t_token	*new;
-	
+
 	if (prompt == NULL)
 		return (NULL);
 	token = NULL;

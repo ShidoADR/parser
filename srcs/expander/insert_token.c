@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   insert_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:50:14 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/20 14:07:38 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:43:11 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	first_value_index(char *content)
 	i = 0;
 	while (content[i] != '\0')
 	{
-		if (my_isspace (content[i]) == TRUE)
+		if (my_isspace(content[i]) == TRUE)
 			return (i);
 		i++;
 	}
@@ -49,7 +49,7 @@ void	insert_token(t_token **token, char **chain)
 		if (chain[i + 1] == NULL)
 			break ;
 		new = new_token(WORD, chain[i], (*token)->shell);
-		add_new_token (token, new);
+		add_new_token(token, new);
 		i++;
 	}
 }
@@ -68,16 +68,14 @@ void	check_token(t_token **token, char **result, char **chain, char **s)
 {
 	char	*tmp;
 
-	if (*s != NULL && my_isspace (*result[0]) == TRUE)
+	if (*s != NULL && my_isspace(*result[0]) == TRUE)
 	{
-		if ((*token)->prev != NULL && check_redir ((*token)->prev) == TRUE)
-			(*token)->shell->is_ambigous = TRUE;
-		tmp = my_substr (*s, 0, my_strlen (*s));
-		free (*s);
+		tmp = my_substr(*s, 0, my_strlen(*s));
+		free(*s);
 		*s = NULL;
-		add_new_token (token, new_token (WORD, tmp, (*token)->shell));
+		add_new_token(token, new_token(WORD, tmp, (*token)->shell));
 	}
 	else if (*s != NULL)
-		chain[0] = join_string (s, &chain[0]);
-	insert_token (token, chain);
+		chain[0] = join_string(s, &chain[0]);
+	insert_token(token, chain);
 }

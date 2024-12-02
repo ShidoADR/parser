@@ -26,7 +26,7 @@ char	*handle_quoted_text(char *content, int *index)
 			i++;
 		}
 		*index += i;
-		return (my_substr (content, 0, i));
+		return (my_substr(content, 0, i));
 	}
 	return (NULL);
 }
@@ -46,7 +46,7 @@ char	*remove_quote(char *content, char quote)
 				break ;
 			len++;
 		}
-		result = my_substr (content, 1, len);
+		result = my_substr(content, 1, len);
 	}
 	return (result);
 }
@@ -55,8 +55,8 @@ char	*handle_single_quote(char *content, int *index)
 {
 	char	*content_handled;
 
-	*index += quoted_text_length (content, '\'');
-	content_handled = remove_quote (content, '\'');
+	*index += quoted_text_length(content, '\'');
+	content_handled = remove_quote(content, '\'');
 	return (content_handled);
 }
 
@@ -65,7 +65,7 @@ char	*handle_double_quote(char *content, int *index, t_token *token)
 	char	*removed_quote;
 	char	*content_handled;
 
-	removed_quote = remove_quote (content, '\"');
+	removed_quote = remove_quote(content, '\"');
 	if (removed_quote == NULL)
 		return (NULL);
 	if (removed_quote[0] == '\0')
@@ -73,9 +73,9 @@ char	*handle_double_quote(char *content, int *index, t_token *token)
 		*index += 2;
 		return (removed_quote);
 	}
-	content_handled = handle_content (removed_quote, token);
-	*index += quoted_text_length (content, '\"');
-	free (removed_quote);
+	content_handled = handle_content(removed_quote, token);
+	*index += quoted_text_length(content, '\"');
+	free(removed_quote);
 	return (content_handled);
 }
 
@@ -89,9 +89,9 @@ char	*handle_quote(char *content, int *index, t_token *token)
 	{
 		i = 0;
 		if (content[i] == '\'')
-			result = handle_single_quote (content, &i);
+			result = handle_single_quote(content, &i);
 		else
-			result = handle_double_quote (content, &i, token);
+			result = handle_double_quote(content, &i, token);
 		*index += i;
 	}
 	return (result);

@@ -44,17 +44,16 @@ LIBFT_DIR = libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-LIBRARY =	$(addprefix get_next_line/, get_next_line.c get_next_line_utils.c) \
-			$(addprefix expander/, expand_variable.c expander.c insert_token.c variable.c quote_utils.c \
+LIBRARY =	$(addprefix expander/, expand_variable.c expander.c insert_token.c variable.c quote_utils.c \
 			status_utils.c) \
 			$(addprefix error/, error_handler.c lexer_error.c) \
 			$(addprefix lexer/, init_struct.c lexer.c lexer_utils.c) \
 			$(addprefix string_library/, my_strlen.c my_strncmp.c my_substr.c my_isspace.c my_strchr.c \
 			my_strdup.c my_strjoin.c my_split.c my_itoa.c my_atol.c) \
 			$(addprefix parser/, init_command.c parser.c parser_utils.c redir_utils.c) \
-			$(addprefix builtin/, builtin.c utils.c signal.c) \
-			$(addprefix executor/, executor.c) \
-			$(addprefix redirection/, redirection.c heredoc.c)
+			$(addprefix builtin/, builtin_1.c exec_path.c validate_args.c free_and_exit.c check_builtin.c update_pwd.c builtin.c builtin_2.c execute_command.c utils.c utils_1.c utils_2.c utils_3.c utils_4.c utils_5.c signal.c) \
+			$(addprefix executor/, executor.c executor_utils.c) \
+			$(addprefix redirection/, check_redir.c redirection.c handle_heredoc.c heredoc.c)
 
 MAIN = main.c
 

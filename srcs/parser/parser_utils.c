@@ -3,6 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/02 11:16:21 by hariandr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/22 11:11:42 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/02 08:13:44 by lrasamoe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 10:02:52 by hariandr          #+#    #+#             */
@@ -12,32 +36,22 @@
 
 #include <minishell.h>
 
-t_command_table	init_command(void)
-{
-	t_command_table	command;
-
-	command.command = NULL;
-	command.redir = NULL;
-	command.input = NULL;
-	command.output = NULL;
-	command.here_doc.here_doc[0] = -1;
-	command.here_doc.here_doc[1] = -1;
-	return (command);
-}
-
 void	free_args(char	**args)
 {
 	int	i;
 
 	i = 0;
-	while (args[i] != NULL)
+	if (args != NULL)
 	{
-		free (args[i]);
-		args[i] = NULL;
-		i++;
+		while (args[i] != NULL)
+		{
+			free (args[i]);
+			args[i] = NULL;
+			i++;
+		}
+		free (args);
+		args = NULL;
 	}
-	free (args);
-	args = NULL;
 }
 
 t_command	*last_command(t_command **command)
@@ -49,20 +63,24 @@ t_command	*last_command(t_command **command)
 	return (*command);
 }
 
-void	handle_redirection(t_token **token, t_command_table *command)
+t_token	*handle_redirection(t_token **token)
 {
 	t_token	*tmp;
+	t_token	*redir;
 
 	tmp = *token;
-	while (tmp != NULL)
+	redir = NULL;
+	while (tmp != NULL && tmp->type != PIPE)
 	{
-		if (check_redir (tmp) == TRUE && tmp->next != NULL && tmp->next->type == WORD)
+		if (check_redir (tmp) == TRUE && tmp->next != NULL
+			&& tmp->next->type == WORD)
 		{
-			add_back (&command->redir, get_redir (tmp));
+			add_back (&redir, get_redir (tmp));
 			tmp = tmp->next;
 		}
 		tmp = tmp->next;
 	}
+	return (redir);
 }
 
 int	arg_size(t_token *token)
@@ -74,10 +92,10 @@ int	arg_size(t_token *token)
 	{
 		if (token->type != PIPE)
 		{
-			if (token->type == WORD)
-				i++;
 			if (check_redir (token) == TRUE)
 				token = token->next;
+			else if (token->type == WORD && token->content != NULL)
+				i++;
 		}
 		else
 			break ;

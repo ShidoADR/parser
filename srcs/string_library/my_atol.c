@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:53:24 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/12 11:21:02 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:36:34 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 unsigned long	my_atol(const char *str, int *sign)
 {
-	int i;
-	unsigned long long result;
+	int					i;
+	unsigned long long	result;
 
 	*sign = 1;
 	i = 0;

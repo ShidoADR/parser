@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/02 12:53:33 by hariandr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_variable.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 10:04:49 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/20 14:11:27 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:54:05 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +43,43 @@ t_bool	check_space(char *content)
 	i = 0;
 	while (content[i] != '\0')
 	{
-		if (my_isspace (content[i]) == TRUE)
+		if (my_isspace(content[i]) == TRUE)
 			return (TRUE);
 		i++;
 	}
 	return (FALSE);
+}
+
+t_bool	is_chain_null(char **chain)
+{
+	if (chain_len(chain) == 0)
+	{
+		free_args(chain);
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+void	check_ambiguous(char **s, char *content, t_token **token)
+{
+	char	*tmp;
+	char	*temp;
+	char	**c;
+
+	if ((*token)->prev->type != HEREDOC)
+	{
+		tmp = my_strdup (*s);
+		temp = handle_content (content, *token);
+		temp = join_string (&tmp, &temp);
+		if (temp != NULL)
+		{
+			c = my_split (temp);
+			if (chain_len (c) == 0 || chain_len (c) > 1)
+				(*token)->shell->is_ambigous = TRUE;
+			free (temp);
+			free_args (c);
+		}
+	}
 }
 
 char	*expand_variable(char **s, char *content, t_token **token, int *i)
@@ -45,23 +89,24 @@ char	*expand_variable(char **s, char *content, t_token **token, int *i)
 	char	**chain;
 	t_bool	is_space;
 
-	result = handle_dollar_sign (content, i, *token);
-	if (check_space (result) == TRUE)
+	result = handle_dollar_sign(content, i, *token);
+	if (check_space(result) == TRUE)
 	{
-		chain = my_split (result);
-		if (chain != NULL)
-		{
-			check_token (token, &result, chain, s);
-			tmp = chain[chain_len (chain) - 1];
-			is_space = my_isspace (result[my_strlen (result) - 1]) == TRUE;
-			free (result);
-			result = NULL;
-			if (is_space)
-				add_new_token (token, new_token (WORD, tmp, (*token)->shell));
-			else
-				result = tmp;
-			free (chain);
-		}
+		chain = my_split(result);
+		if (check_redir((*token)->prev) == TRUE)
+			check_ambiguous (s, content, token);
+		if (chain == NULL || is_chain_null(chain) == TRUE)
+			return (my_strdup(" "));
+		check_token(token, &result, chain, s);
+		tmp = chain[chain_len(chain) - 1];
+		is_space = my_isspace(result[my_strlen(result) - 1]) == TRUE;
+		free(result);
+		result = NULL;
+		if (is_space == TRUE)
+			add_new_token(token, new_token(WORD, tmp, (*token)->shell));
+		else
+			result = tmp;
+		free (chain);
 	}
 	return (result);
 }

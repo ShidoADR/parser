@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 09:21:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 12:26:08 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:40:50 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ int	command_size(t_command *command)
 	return (1);
 }
 
-t_command	*new_command(char *cmd, char **arg)
+t_command	*new_command(char *cmd, char **arg, t_token *redir)
 {
 	t_command	*command;
 
 	command = (t_command *)malloc(sizeof(t_command));
 	if (command == NULL)
 		return (NULL);
+	command->redir = redir;
+	command->input = NULL;
+	command->output = NULL;
 	command->command = cmd;
 	command->arguments = arg;
 	command->next = NULL;
@@ -60,6 +63,9 @@ void	delete_command(t_command **command)
 		if ((*command)->arguments != NULL)
 			free_args((*command)->arguments);
 		(*command)->arguments = NULL;
+		if ((*command)->redir != NULL)
+			clear_token (&(*command)->redir);
+		(*command)->redir = NULL;
 		free (*command);
 		(*command) = NULL;
 	}

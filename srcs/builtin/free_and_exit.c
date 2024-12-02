@@ -1,77 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   free_and_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/26 11:00:38 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:22:06 by hariandr         ###   ########.fr       */
+/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/02 11:19:30 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   free_and_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 15:08:25 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/23 14:38:09 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/11/29 07:46:25 by lrasamoe          #+#    #+#             */
+/*   Updated: 2024/12/02 07:49:35 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_bool	handle_sig(t_status sig)
+void	clear_shell(t_shell *shell)
 {
-	if (sig == 2 || sig == 131)
+	if (shell != NULL)
 	{
-		ft_putendl_fd ("", 1);
-		return (TRUE);
+		if (shell->env != NULL)
+			free_args(shell->env);
+		shell->env = NULL;
+		if (shell->export != NULL)
+			free_args(shell->export);
+		shell->export = NULL;
+		clear_command(&shell->command);
 	}
-	return (FALSE);
 }
 
-void	handle_signal(int sig)
+void	exit_signal(t_shell *shell)
 {
-	if (sig == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	g_sig = 128 + sig;
-	return ;
+	ft_putendl_fd("exit", 0);
+	clear_shell(shell);
+	exit(shell->status);
 }
 
-void	signal_fork(int sig)
+void	restore_fd(int backup[2])
 {
-	if (sig == SIGINT)
-		g_sig = 128 + sig;
-	close(STDIN_FILENO);
-}
-
-void	my_signal(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = 0;
-	signal(SIGINT, handle_signal);
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
-void	my_signal_heredoc(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = 0;
-	signal(SIGINT, signal_fork);
-	sigaction(SIGQUIT, &sa, NULL);
+	dup2(backup[0], STDIN_FILENO);
+	dup2(backup[1], STDOUT_FILENO);
+	close_fd(backup);
 }

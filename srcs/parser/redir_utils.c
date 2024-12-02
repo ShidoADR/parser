@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:42:07 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/11 13:05:26 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:52:33 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ t_token	*get_redir(t_token *token)
 
 t_bool	check_redir(t_token *token)
 {
-	if (token->type == REDIR_IN || token->type == HEREDOC)
-		return (TRUE);
-	if (token->type == REDIR_OUT || token->type == APPEND)
-		return (TRUE);
+	if (token != NULL)
+	{
+		if (token->type == REDIR_IN || token->type == HEREDOC)
+			return (TRUE);
+		if (token->type == REDIR_OUT || token->type == APPEND)
+			return (TRUE);
+	}
 	return (FALSE);
 }

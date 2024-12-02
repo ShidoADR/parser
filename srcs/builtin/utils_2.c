@@ -1,77 +1,81 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 11:00:38 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:22:06 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:27:53 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 15:08:25 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/23 14:38:09 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/11/23 08:56:11 by lrasamoe          #+#    #+#             */
+/*   Updated: 2024/11/26 10:04:49 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_bool	handle_sig(t_status sig)
+int	my_strcmp(const char *str1, const char *str2)
 {
-	if (sig == 2 || sig == 131)
+	if (str1 == NULL || str2 == NULL)
+		return (1);
+	while (*str1 != '\0' && *str2 != '\0')
 	{
-		ft_putendl_fd ("", 1);
-		return (TRUE);
+		if (*str1 != *str2)
+			return (1);
+		str1++;
+		str2++;
 	}
-	return (FALSE);
+	if (*str1 == '\0' && *str2 == '\0')
+		return (0);
+	return (1);
 }
 
-void	handle_signal(int sig)
+int	verify_option(char *s)
 {
-	if (sig == SIGINT)
+	int	i;
+	int	option;
+
+	i = 0;
+	option = 0;
+	if (s[i] == '-' && s[i + 1] == 'n')
 	{
-		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		i += 2;
+		option = 1;
 	}
-	g_sig = 128 + sig;
-	return ;
+	while (s[i] != '\0')
+	{
+		if (s[i] == 'n')
+			i++;
+		else
+			return (0);
+	}
+	return (option);
 }
 
-void	signal_fork(int sig)
+int	strlen_nvar(char *s)
 {
-	if (sig == SIGINT)
-		g_sig = 128 + sig;
-	close(STDIN_FILENO);
+	int	i;
+
+	i = 0;
+	while ((s[i] != '=' && s[i] != '+') && s[i] != '\0')
+		i++;
+	return (i);
 }
 
-void	my_signal(void)
+int	nt_valid_identifier(char *s)
 {
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = 0;
-	signal(SIGINT, handle_signal);
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
-void	my_signal_heredoc(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = 0;
-	signal(SIGINT, signal_fork);
-	sigaction(SIGQUIT, &sa, NULL);
+	ft_putstr_fd("export : `", 2);
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	return (1);
 }

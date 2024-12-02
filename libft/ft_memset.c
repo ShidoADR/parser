@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 08:51:48 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/07/23 08:51:52 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:17:47 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*ft_memset(void *str, int c, size_t count)
 
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < count)
