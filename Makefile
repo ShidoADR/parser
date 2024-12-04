@@ -34,7 +34,7 @@ NAME = minishell
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 
 LDFLAGS = -lreadline
 
@@ -77,12 +77,12 @@ $(OBJ_DIR)/%.o : %.c
 	@ $(CC) $(FLAGS) -c $< -o $@ $(INCLUDE_DIR)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	$(call loading, "Compiling", 0, \e[1;35m)
+	$(call loading, "Compiling", 0.2, \e[1;35m)
 	@ $(CC) $(FLAGS) $(LDFLAGS) $(LIBFT) $(OBJS) -o $(NAME) -Llibft -lft $(INCLUDE_DIR)
 	$(call check_program, $(NAME))
 
 clean :
-	$(call loading, "cleaning", 0, \e[1;36m)
+	$(call loading, "cleaning", 0.1, \e[1;36m)
 	@ rm -rf $(OBJ_DIR)
 	@ make -C $(LIBFT_DIR) clean
 

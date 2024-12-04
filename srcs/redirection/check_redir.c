@@ -6,11 +6,18 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 08:05:09 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/29 10:50:24 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:40:17 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	signal_fork(int sig)
+{
+	if (sig == SIGINT)
+		here_is_a_signal (sig, SET);
+	close(STDIN_FILENO);
+}
 
 void	builtin_redirection(t_command *command)
 {
@@ -45,5 +52,15 @@ t_status	redir_builtins(t_shell *shell)
 		return (shell->status);
 	}
 	builtin_redirection(shell->command);
+	return (0);
+}
+
+int	redir_here_doc(t_token **token, t_command **command)
+{
+	t_token	*redir;
+
+	redir = *token;
+	if (redir->type == HEREDOC)
+		(*command)->input = redir;
 	return (0);
 }

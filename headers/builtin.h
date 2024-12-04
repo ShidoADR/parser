@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:22:25 by hariandr         ###   ########.fr       */
+/*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 16:19:01 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 11:11:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/30 07:50:26 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/03 11:23:47 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,20 @@ int		cmd_excve(char **s, t_shell *data, t_command *command);
 int		search_path(t_shell *data);
 int		test_path(t_shell *data, char *s);
 int		cmd_pipe(t_shell *data, t_command **command);
-char	*handle_concat_plus(char *s);
-char	**update_existing_entry(char **str, char *s, int concat, int i);
+char	**update_existing_entry(char **str, char *s, int i);
 int		my_strcmp(const char *str1, const char *str2);
 char	**create_new_entry(char **str, char *s);
 char	*ft_my_strcmp2(const char *s1, const char *s2);
 char	**ft_fill_data(char **env);
 char	**re_fill_data(char **str, char *s, int n);
-char	**realloc_tab(char **str, char *s, int concat);
+char	**realloc_tab(char **str, char *s);
 char	**assing_tab(char **str, char *s, int n);
 char	*get_env(char *s, t_shell *data);
 void	ft_swap_chr(char **a, char **b);
 void	ft_strcat(char *d, const char *s);
 void	sort_env(t_shell *data);
+t_bool	is_signaled(t_command **command);
 void	handle_signal(int sig);
-t_bool	handle_sig(t_status sig);
 void	my_signal(void);
 void	my_signal_heredoc(void);
 void	signal_fork(int sig);

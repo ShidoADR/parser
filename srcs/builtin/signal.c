@@ -3,33 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/26 11:00:38 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:22:06 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 15:08:25 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/23 14:38:09 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:18:22 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_bool	handle_sig(t_status sig)
+t_bool	is_signaled(t_command **command)
 {
-	if (sig == 2 || sig == 131)
+	t_command	*tmp;
+
+	tmp = *command;
+	while (tmp != NULL && tmp->next != NULL)
 	{
-		ft_putendl_fd ("", 1);
-		return (TRUE);
+		if (tmp->status == 2)
+			return (TRUE);
+		if (tmp->status == 131)
+			return (TRUE);
+		tmp = tmp->next;
 	}
 	return (FALSE);
 }
@@ -43,15 +37,18 @@ void	handle_signal(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	g_sig = 128 + sig;
-	return ;
+	here_is_a_signal(sig, SET);
 }
 
-void	signal_fork(int sig)
+int	here_is_a_signal(int sig, t_mode mode)
 {
-	if (sig == SIGINT)
-		g_sig = 128 + sig;
-	close(STDIN_FILENO);
+	static int	var = 0;
+
+	if (mode == SET)
+		var = sig + 128;
+	if (mode == RESET)
+		var = 0;
+	return (var);
 }
 
 void	my_signal(void)

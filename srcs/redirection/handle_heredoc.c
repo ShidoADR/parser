@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 07:07:06 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/29 07:23:07 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:34:15 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	exec_heredoc_child(t_token *redir, t_command **command)
 		exit (1);
 	}
 	clear_shell (redir->shell);
-	if (g_sig == 130)
-		exit (g_sig);
+	if (here_is_a_signal (0, GET) == 130)
+		exit (130);
 	exit (status);
 }
 
@@ -42,8 +42,11 @@ t_status	excec_heredoc_parent(t_token **token, t_command **command)
 	status = get_exit_status (status);
 	signal (SIGINT, handle_signal);
 	(*command)->input = redir;
-	if (redir->next != NULL && check_next_redir (redir->next) == TRUE)
+	if (redir->next != NULL && check_next_redir (redir) == TRUE)
+	{
 		close ((*command)->here_doc.here_doc[0]);
+		(*command)->input = NULL;
+	}
 	close ((*command)->here_doc.here_doc[1]);
 	if (status != 0)
 		(*token)->shell->status = status;

@@ -5,20 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 11:00:41 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_builtin.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 08:09:13 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/30 10:47:56 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 16:19:35 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +45,17 @@ int	cmd(t_shell *data, t_command *command)
 		return (exit_shell(command, data));
 	else
 		return (cmd_excve(args, data, command));
-	return (0);
 }
 
-void	dup_fd_builtins(int backup[2], char *command)
+void	dup_fd_builtins(int backup[2], char *command, t_shell *s)
 {
 	if ((my_strcmp (command, "exit") != 0))
 	{
 		backup[0] = dup(STDIN_FILENO);
 		backup[1] = dup(STDOUT_FILENO);
 	}
+	else
+		s->to_restore = FALSE;
 }
 
 void	dup_fd(int backup[2])
@@ -79,10 +68,10 @@ t_status	exec_builtins(t_shell *shell, char *command, char **args)
 {
 	int	backup[2];
 
-	dup_fd_builtins (backup, command);
+	dup_fd_builtins (backup, command, shell);
 	if (redir_builtins(shell) != 0)
 	{
-		restore_fd(backup);
+		restore_fd_builtins(backup, &shell->to_restore);
 		return (shell->status);
 	}
 	if ((my_strcmp(command, "cd") == 0))
@@ -100,6 +89,6 @@ t_status	exec_builtins(t_shell *shell, char *command, char **args)
 	else if ((my_strcmp(command, "exit") == 0))
 		shell->status = exit_shell(shell->command, shell);
 	clear_command(&shell->command);
-	restore_fd(backup);
+	restore_fd_builtins (backup, &shell->to_restore);
 	return (shell->status);
 }

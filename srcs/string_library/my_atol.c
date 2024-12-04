@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:53:24 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/28 14:36:34 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:58:05 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ unsigned long	my_atol(const char *str, int *sign)
 	}
 	while (str[i] != '\0')
 	{
+		if (*sign == -1 && result > 9223372036854775808ULL)
+			*sign = -2;
+		if (*sign == 1 && result > 9223372036854775807ULL)
+			*sign = -2;
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}

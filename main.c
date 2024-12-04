@@ -5,26 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:24:13 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 11:11:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 07:39:42 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/04 10:52:20 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 13:04:52 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-volatile sig_atomic_t	g_sig = 0;
 
 void	exit_with_status(t_command *command, t_shell *shell)
 {
@@ -125,13 +111,14 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		my_signal();
-		shell.prompt = readline("minishell>> ");
+		shell.prompt = readline ("minishell>> ");
 		if (shell.prompt == NULL)
 			exit_signal(&shell);
-		if (g_sig)
+		shell.signal = here_is_a_signal (0, GET);
+		if (shell.signal)
 		{
-			shell.status = g_sig;
-			g_sig = 0;
+			shell.status = shell.signal;
+			here_is_a_signal (0, RESET);
 		}
 		if (shell.prompt[0] != '\0')
 			add_history(shell.prompt);

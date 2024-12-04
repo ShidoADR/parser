@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 11:11:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/28 14:37:07 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/04 10:52:20 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 13:20:51 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*heredoc_expander(t_token *token, t_bool is_expandable, char *str)
 t_bool	break_heredoc(char **str, char *delimiter, t_token *redir,
 		t_command **command)
 {
-	if (g_sig == 130)
+	if (here_is_a_signal (0, GET) == 130)
 	{
 		if (str && *str != NULL)
 			free(*str);
@@ -115,16 +115,16 @@ int	cmd_here_doc(t_token *redir_doc, t_command **command)
 	while (1)
 	{
 		str = readline("> ");
-		add_history(str);
 		if (break_heredoc(&str, delimiter, redir_doc, command) == TRUE)
 			break ;
 		content = heredoc_expander(redir_doc, is_expandable, str);
-		write((*command)->here_doc.here_doc[1], content, ft_strlen(content));
+		write((*command)->here_doc.here_doc[1], content, my_strlen(content));
 		write((*command)->here_doc.here_doc[1], "\n", 1);
 		free(content);
 		free(str);
 	}
-	free(delimiter);
+	if (delimiter)
+		free (delimiter);
 	close((*command)->here_doc.here_doc[1]);
 	return (0);
 }

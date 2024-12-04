@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:11:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/29 10:48:51 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 09:28:26 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 t_bool	check_next_redir(t_token *redir)
 {
+	redir = redir->next;
 	if (redir != NULL)
 	{
 		while (redir != NULL)
@@ -105,6 +106,8 @@ t_status	handle_redir(t_shell *shell, t_command *command)
 			if (redir_out (shell, &redir, &command) == 1)
 				return (1);
 			if (redir_append (shell, &redir, &command) == 1)
+				return (1);
+			if (redir_here_doc (&redir, &command) == 1)
 				return (1);
 			redir = redir->next;
 		}

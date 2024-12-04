@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:57:34 by hariandr         ###   ########.fr       */
+/*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 16:10:35 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 07:52:36 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/29 10:35:59 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 13:19:05 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_shell	init_shell(char **env)
 	t_shell	shell;
 
 	getcwd (shell.pwd, sizeof(shell.pwd));
+	shell.to_restore = TRUE;
+	shell.signal = 0;
 	shell.is_ambigous = FALSE;
 	shell.all_path = NULL;
 	shell.path = NULL;
@@ -102,6 +104,13 @@ t_bool	is_valid_status(char *status)
 
 t_bool	check_status_value(unsigned long status_value, char *status, int sign)
 {
+	if (sign == -2)
+	{
+		print_custom_error("exit : ");
+		write(2, status, my_strlen(status));
+		ft_putstr_fd(" : numeric argument required\n", 2);
+		return (FALSE);
+	}
 	if (sign == -1 && status_value > 9223372036854775808ULL)
 	{
 		print_custom_error("exit : ");

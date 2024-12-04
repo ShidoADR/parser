@@ -5,20 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 11:19:48 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 13:52:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/29 10:34:34 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 16:18:51 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +33,7 @@ typedef struct s_heredoc
 typedef struct s_command
 {
 	pid_t				pid;
+	t_status			status;
 	char				*command;
 	char				**arguments;
 	struct s_token		*redir;
@@ -57,14 +46,16 @@ typedef struct s_command
 
 typedef struct s_shell
 {
-	char				pwd[4096];
 	char				*path;
 	char				**env;
+	int					signal;
 	int					status;
 	struct s_token		*token;
 	char				*prompt;
 	struct s_command	*command;
 	char				**export;
+	char				pwd[4096];
+	t_bool				to_restore;
 	char				**all_path;
 	char				*directory;
 	t_bool				is_ambigous;

@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/11/22 11:11:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/27 15:01:49 by hariandr         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 13:19:57 by lrasamoe          #+#    #+#             */
+/*   Updated: 2024/12/04 13:20:01 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +73,8 @@ void	exec_child(t_command *command, t_shell *shell, int backup[2],
 	if (handle_redir(shell, command) != 0)
 	{
 		clear_shell(shell);
+		close (pipe_fd[1]);
+		close (backup[1]);
 		exit(shell->status);
 	}
 	redirect_stdin(command);

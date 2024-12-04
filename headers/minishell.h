@@ -5,20 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:22:57 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 11:11:42 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/30 10:47:36 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 16:18:39 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +196,6 @@ int								cmd_here_doc(t_token *redir_doc,
 									t_command **command);
 void							launch_executor(t_shell *shell);
 int								get_exit_status(int exit_status);
-extern volatile sig_atomic_t	g_sig;
 int								signal_captured(int sig);
 t_status						here_doc(t_command *command, t_shell *shell);
 void							redirect_stdin(t_command *command);
@@ -226,9 +213,12 @@ t_bool							is_valid_status(char *status);
 t_bool							check_status_value(unsigned long status_value,
 									char *status, int sign);
 int								exit_shell(t_command *command, t_shell *shell);
-void							dup_fd_builtins(int backup[2], char *command);
+void							dup_fd_builtins(int backup[2], char *command,
+									t_shell *s);
 void							dup_fd(int backup[2]);
 void							restore_fd(int backup[2]);
+void							restore_fd_builtins(int backup[2],
+									t_bool *to_restore);
 t_status						exec_builtins(t_shell *shell, char *command,
 									char **args);
 void							exit_signal(t_shell *shell);
@@ -240,5 +230,10 @@ t_bool							is_special_var(char *content, int *index,
 void							exec_path_null(char **s, t_shell *data);
 
 void							exec_path_not_null(char **s, t_shell *data);
+int								redir_heredoc(t_shell *shell, t_token **token,
+									t_command **command);
+int								redir_here_doc(t_token **token,
+									t_command **command);
+int								here_is_a_signal(int sig, t_mode mode);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:44:19 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/19 09:02:54 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:30:39 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,12 @@ typedef enum e_token_type
 	HEREDOC,
 	APPEND
 }	t_token_type;
+
+typedef enum e_mode
+{
+	GET,
+	SET,
+	RESET
+}	t_mode;
 
 #endif

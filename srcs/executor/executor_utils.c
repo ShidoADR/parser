@@ -3,22 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:21:14 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor_utils.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 14:22:56 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/12/02 08:50:11 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 13:19:48 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +15,24 @@
 void	wait_exec(t_command **command, t_shell *shell)
 {
 	t_command	*tmp;
-	t_status	sig;
 
 	tmp = *command;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	while (tmp != NULL)
 	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
 		if (tmp->next != NULL)
-		{
-			waitpid(tmp->pid, &sig, 0);
-			if (handle_sig (sig) == TRUE)
-				break ;
-		}
+			waitpid(tmp->pid, &tmp->status, 0);
 		else
 		{
-			waitpid(tmp->pid, &shell->status, 0);
-			shell->status = get_exit_status(shell->status);
+			waitpid(tmp->pid, &tmp->status, 0);
+			shell->status = get_exit_status(tmp->status);
 		}
-		signal(SIGINT, handle_signal);
-		signal(SIGQUIT, handle_signal);
-		if ((shell->status == 130) || (shell->status == 131))
-			break ;
 		tmp = tmp->next;
 	}
+	if (is_signaled (command) && shell->status
+		!= 130 && shell->status != 131)
+		ft_putendl_fd ("", 1);
 }
 
 int	pipe_and_fork(int pipe_fd[2], pid_t *pid)
@@ -113,7 +95,7 @@ int	cmd_pipe(t_shell *data, t_command **command)
 			exec_child(tmp, data, backup, pipe_fd);
 		else
 		{
-			exec_parent(pipe_fd, *command);
+			exec_parent(pipe_fd, tmp);
 			tmp = tmp->next;
 		}
 	}

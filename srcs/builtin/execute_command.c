@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:07:56 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/30 10:58:48 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:18:19 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	join_and_print_error(char *s0, char *s1, char *s2)
 void	free_error_exec(char **s, t_shell *data)
 {
 	join_and_print_error(NULL, s[0], ": Command not found\n");
+	if (data->all_path)
+		free_args(data->all_path);
 	if (s)
 		free_args(s);
 	if (data->env)

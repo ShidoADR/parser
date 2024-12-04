@@ -3,22 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:53:33 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expand_variable.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 10:04:49 by hariandr          #+#    #+#             */
-/*   Updated: 2024/11/29 12:54:05 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/04 13:20:12 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +38,13 @@ t_bool	check_space(char *content)
 	return (FALSE);
 }
 
-t_bool	is_chain_null(char **chain)
+t_bool	is_chain_null(char **chain, char **result)
 {
 	if (chain_len(chain) == 0)
 	{
 		free_args(chain);
+		free (*result);
+		*result = NULL;
 		return (TRUE);
 	}
 	return (FALSE);
@@ -95,7 +85,7 @@ char	*expand_variable(char **s, char *content, t_token **token, int *i)
 		chain = my_split(result);
 		if (check_redir((*token)->prev) == TRUE)
 			check_ambiguous (s, content, token);
-		if (chain == NULL || is_chain_null(chain) == TRUE)
+		if (chain == NULL || is_chain_null(chain, &result) == TRUE)
 			return (my_strdup(" "));
 		check_token(token, &result, chain, s);
 		tmp = chain[chain_len(chain) - 1];

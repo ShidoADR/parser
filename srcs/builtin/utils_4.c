@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 08:54:53 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/12/02 08:26:41 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:18:44 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,7 @@ int	test_path(t_shell *data, char *s)
 	{
 		if (executable_path(data, s, pths, i) == 0)
 			return (0);
-		if (pths)
-			free(pths);
 	}
-	free_args(data->all_path);
 	return (1);
 }
 

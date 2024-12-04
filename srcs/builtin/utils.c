@@ -6,7 +6,7 @@
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:46:53 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/29 11:33:27 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:37:41 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ char	*get_env(char *s, t_shell *data)
 int	assign_val(t_shell *data, char *s)
 {
 	int	i;
-	int	concat;
 
-	concat = 0;
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -65,17 +63,15 @@ int	assign_val(t_shell *data, char *s)
 			i++;
 		else
 		{
-			if (s[i] == '=' || (s[i] == '+' && s[i + 1] == '='))
+			if (s[i] == '=')
 			{
-				if (s[i] == '+' && s[i + 1] == '=')
-					concat = 1;
-				data->env = realloc_tab(data->env, s, concat);
+				data->env = realloc_tab(data->env, s);
 				break ;
 			}
 			return (nt_valid_identifier(s));
 		}
 	}
-	data->export = realloc_tab(data->export, s, concat);
+	data->export = realloc_tab(data->export, s);
 	sort_env(data);
 	return (0);
 }

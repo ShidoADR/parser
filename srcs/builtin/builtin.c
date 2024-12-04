@@ -3,22 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/02 12:58:24 by hariandr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 12:36:45 by lrasamoe          #+#    #+#             */
-/*   Updated: 2024/11/30 07:50:42 by lrasamoe         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:17:48 by lrasamoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +15,6 @@
 int	cd_to_directory(char **s, int i)
 {
 	if (s[i] && s[i + 1])
-	{
-		print_custom_error("cd: too many arguments\n");
-		return (1);
-	}
-	else if (s[i] && s[i + 1])
 	{
 		print_custom_error("cd: too many arguments\n");
 		return (1);
