@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrasamoe <lrasamoe@student.42antananari    +#+  +:+       +#+        */
+/*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 10:52:33 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/04 13:19:48 by lrasamoe         ###   ########.fr       */
+/*   Created: 2024/12/04 16:35:12 by hariandr          #+#    #+#             */
+/*   Updated: 2024/12/05 11:12:23 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,9 @@ void	wait_exec(t_command **command, t_shell *shell)
 	signal(SIGQUIT, SIG_IGN);
 	while (tmp != NULL)
 	{
-		if (tmp->next != NULL)
-			waitpid(tmp->pid, &tmp->status, 0);
-		else
-		{
-			waitpid(tmp->pid, &tmp->status, 0);
-			shell->status = get_exit_status(tmp->status);
-		}
+		waitpid(tmp->pid, &tmp->status, 0);
+		if (tmp->next == NULL)
+			shell->status = get_exit_status (tmp->status);
 		tmp = tmp->next;
 	}
 	if (is_signaled (command) && shell->status

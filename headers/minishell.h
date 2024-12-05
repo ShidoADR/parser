@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/04 16:18:39 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/12/05 11:08:47 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,13 +213,12 @@ t_bool							is_valid_status(char *status);
 t_bool							check_status_value(unsigned long status_value,
 									char *status, int sign);
 int								exit_shell(t_command *command, t_shell *shell);
-void							dup_fd_builtins(int backup[2], char *command,
-									t_shell *s);
 void							dup_fd(int backup[2]);
 void							restore_fd(int backup[2]);
-void							restore_fd_builtins(int backup[2],
-									t_bool *to_restore);
 t_status						exec_builtins(t_shell *shell, char *command,
+									char **args);
+void							exit_builtins(t_shell *shell, int backup[2]);
+void							other_builtins(t_shell *shell, char *command,
 									char **args);
 void							exit_signal(t_shell *shell);
 t_shell							init_shell(char **env);

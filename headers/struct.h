@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/04 16:18:51 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/12/05 11:09:05 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_shell
 	struct s_command	*command;
 	char				**export;
 	char				pwd[4096];
-	t_bool				to_restore;
 	char				**all_path;
 	char				*directory;
 	t_bool				is_ambigous;

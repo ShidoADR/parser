@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/04 16:19:35 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/12/05 11:05:35 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,6 @@ int	cmd(t_shell *data, t_command *command)
 		return (cmd_excve(args, data, command));
 }
 
-void	dup_fd_builtins(int backup[2], char *command, t_shell *s)
-{
-	if ((my_strcmp (command, "exit") != 0))
-	{
-		backup[0] = dup(STDIN_FILENO);
-		backup[1] = dup(STDOUT_FILENO);
-	}
-	else
-		s->to_restore = FALSE;
-}
-
 void	dup_fd(int backup[2])
 {
 	backup[0] = dup(STDIN_FILENO);
@@ -68,27 +57,19 @@ t_status	exec_builtins(t_shell *shell, char *command, char **args)
 {
 	int	backup[2];
 
-	dup_fd_builtins (backup, command, shell);
-	if (redir_builtins(shell) != 0)
+	dup_fd (backup);
+	if (redir_builtins (shell) != 0)
 	{
-		restore_fd_builtins(backup, &shell->to_restore);
+		restore_fd (backup);
 		return (shell->status);
 	}
-	if ((my_strcmp(command, "cd") == 0))
-		shell->status = ft_cd(args, shell);
-	else if ((my_strcmp(command, "env") == 0))
-		shell->status = ft_env(shell);
-	else if ((my_strcmp(command, "echo") == 0))
-		shell->status = ft_echo(args);
-	else if ((my_strcmp(command, "pwd") == 0))
-		shell->status = (ft_pwd(shell));
-	else if ((my_strcmp(command, "export") == 0))
-		shell->status = ft_export(shell, args);
-	else if ((my_strcmp(command, "unset") == 0))
-		shell->status = ft_unset(shell, args);
-	else if ((my_strcmp(command, "exit") == 0))
-		shell->status = exit_shell(shell->command, shell);
+	if ((my_strcmp(command, "exit") == 0))
+		exit_builtins (shell, backup);
+	else
+	{
+		other_builtins (shell, command, args);
+		restore_fd (backup);
+	}
 	clear_command(&shell->command);
-	restore_fd_builtins (backup, &shell->to_restore);
 	return (shell->status);
 }

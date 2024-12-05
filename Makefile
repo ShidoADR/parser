@@ -51,7 +51,7 @@ LIBRARY =	$(addprefix expander/, expand_variable.c expander.c insert_token.c var
 			$(addprefix string_library/, my_strlen.c my_strncmp.c my_substr.c my_isspace.c my_strchr.c \
 			my_strdup.c my_strjoin.c my_split.c my_itoa.c my_atol.c) \
 			$(addprefix parser/, init_command.c parser.c parser_utils.c redir_utils.c) \
-			$(addprefix builtin/, builtin_1.c exec_path.c validate_args.c free_and_exit.c check_builtin.c update_pwd.c builtin.c builtin_2.c execute_command.c utils.c utils_1.c utils_2.c utils_3.c utils_4.c utils_5.c signal.c) \
+			$(addprefix builtin/, exec_builtins.c builtin_1.c exec_path.c validate_args.c free_and_exit.c check_builtin.c update_pwd.c builtin.c builtin_2.c execute_command.c utils.c utils_1.c utils_2.c utils_3.c utils_4.c utils_5.c signal.c) \
 			$(addprefix executor/, executor.c executor_utils.c) \
 			$(addprefix redirection/, check_redir.c redirection.c handle_heredoc.c heredoc.c)
 

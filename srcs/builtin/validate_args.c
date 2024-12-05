@@ -6,7 +6,7 @@
 /*   By: hariandr <hariandr@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:05:40 by hariandr          #+#    #+#             */
-/*   Updated: 2024/12/04 16:10:35 by hariandr         ###   ########.fr       */
+/*   Updated: 2024/12/05 11:09:18 by hariandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_shell	init_shell(char **env)
 	t_shell	shell;
 
 	getcwd (shell.pwd, sizeof(shell.pwd));
-	shell.to_restore = TRUE;
 	shell.signal = 0;
 	shell.is_ambigous = FALSE;
 	shell.all_path = NULL;
