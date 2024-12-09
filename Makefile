@@ -92,5 +92,25 @@ fclean : clean
 
 re : fclean all
 
+rl_supp :
+	@ echo \
+"\
+{\n\
+    leak readline\n\
+    Memcheck:Leak\n\
+    ...\n\
+    fun:readline\n\
+}\n\
+{\n\
+    leak add_history\n\
+    Memcheck:Leak\n\
+    ...\n\
+    fun:add_history\n\
+}\n\
+" > readline.supp
+
+test_leak : re rl_supp
+	valgrind --leak-check=full --show-leak-kinds=all -s --track-fds=yes --track-origins=yes --suppressions=readline.supp ./minishell
+
 .PHONY :
-	all clean fclean re
+	all clean fclean re rl_supp test_leak
